@@ -1,5 +1,9 @@
 package traductor;
 
+/*
+ * Autor: Enrique Bernardo González Vázquez 
+*/
+
 public class Main {
     public static void main(String[] args) {
         Lexico lexico = new Lexico();
