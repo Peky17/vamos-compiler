@@ -16,21 +16,24 @@ public class Lexico {
             "logico", "alfabetica", "continua", "desde", "importar", "regresa", "var");
 
     private final int[][] matran = {
-            { 1, 2, 14, 5, 6, 0, 8, 12, 10, 14 },
-            { 1, 1, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { ACP, 2, 3, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { ERR, 4, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR },
-            { ACP, 4, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { ACP, ACP, ACP, ACP, 7, ACP, ACP, ACP, ACP, ACP },
-            { 7, 7, 7, 5, 6, ACP, 7, 7, 7, ACP },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 9, ACP, ACP },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { 10, 10, 10, 10, 10, ERR, 10, 10, 11, 10 },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 13, ACP, ACP },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }
+            { 1, 2, 14, 5, 6, 0, 8, 12, 10, 14, 15, 16 }, // 00 Estado inicial
+            { 1, 1, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 01 Estado para identificadores
+            { ACP, 2, 3, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 02 Estado para constantes enteras
+            { ERR, 4, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR }, // 03 Estado para constantes decimales
+            { ACP, 4, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 04 Estado para constantes decimales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 05 Estado para operadores aritméticos
+            { ACP, ACP, ACP, ACP, 7, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 06 Estado para /
+            { 7, 7, 7, 5, 6, ACP, 7, 7, 7, ACP, 7, 7 }, // 07 Estado para comentarios de línea
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 9, ACP, ACP, ACP, ACP }, // 08 Estado para "
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 09 Estado para constantes alfabéticas
+            { 10, 10, 10, 10, 10, ERR, 10, 10, 11, 10, 10, 10 }, // 10 Estado para operadores relacionales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 11 Estado para operadores relacionales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 13, ACP, ACP, ACP, ACP }, // 12 Estado para [
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 13 Estado para ]
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 14 Estado para .
+            { 15, 15, 15, 15, 15, ERR, 15, 15, 15, 15, 17, 15 }, // 15 Estado para operadores lógicos
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 16 Estado para símbolos especiales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP } // 17 Estado para operadores lógicos
     };
 
     public void erra(String tipE, String desE, String strE) {
@@ -58,6 +61,10 @@ public class Lexico {
             return 8;
         if ("{}()[],:;".indexOf(s) != -1)
             return 9;
+        if ("|&!".indexOf(s) != -1)
+            return 10; // Nueva columna para operadores lógicos
+        if ("#$^¿¡?".indexOf(s) != -1)
+            return 11; // Nueva columna para símbolos especiales
         return ERR;
     }
 
@@ -171,6 +178,18 @@ public class Lexico {
                 erra("Error Lexico", "Constante Alfabetica SIN cerrar", lexema.toString());
                 tok = "CtA";
                 lex = lexema.toString();
+                break;
+            case 15:
+                lex = lexema.toString();
+                tok = "OpL";
+                break;
+            case 16:
+                lex = lexema.toString();
+                tok = "Sym";
+                break;
+            case 17:
+                lex = lexema.toString();
+                tok = "OpL";
                 break;
         }
 
