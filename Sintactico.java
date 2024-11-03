@@ -1,5 +1,3 @@
-package traductor;
-
 import java.util.Arrays;
 
 public class Sintactico {

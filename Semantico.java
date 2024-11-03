@@ -1,5 +1,3 @@
-package traductor;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class Semantico {
                 }
                 break;
             } catch (IOException e) {
-                System.out.println(archE + " no existe, volver a intentar.");
+                System.out.println("Error: " + e.getMessage());
             }
         }
 

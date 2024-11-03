@@ -1,5 +1,3 @@
-package traductor;
-
 /*
  * Autor: Enrique Bernardo González Vázquez 
 */

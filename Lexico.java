@@ -1,4 +1,3 @@
-package traductor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +14,7 @@ public class Lexico {
             "caso", "difiere", "ir", "mapa", "estructura", "fmt", "Leer", "Imprime", "canal", "sino", "ir_a",
             "paquete", "segun", "principal", "Imprimenl", "const", "si", "rango", "tipo", "entero", "decimal",
             "logico", "alfabetica", "continua", "desde", "importar", "regresa", "var");
+
     private final int[][] matran = {
             { 1, 2, 14, 5, 6, 0, 8, 12, 10, 14 },
             { 1, 1, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP },

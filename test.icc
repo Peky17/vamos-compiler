@@ -1,0 +1,7 @@
+// Simular importar paquete fmt
+importar "fmt"
+
+// Funcion principal
+func principal() {
+  fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
+}
