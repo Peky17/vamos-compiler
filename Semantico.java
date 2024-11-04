@@ -45,7 +45,8 @@ public class Semantico {
         while (sintactico.lex.equals("importar")) {
             sintactico.importar();
         }
-        while (sintactico.lex.equals("var") || sintactico.lex.equals("const")) {
+        while (sintactico.lex.equals("variable")
+                || sintactico.lex.equals("constante")) {
             sintactico.varsconsts();
         }
 

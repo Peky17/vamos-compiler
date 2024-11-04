@@ -1,7 +1,17 @@
 // Simular importar paquete fmt
 importar "fmt"
 
+variable num entero
+constante total entero=10
+
 // Funcion principal
 func principal() {
   fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
+  //fmt.Imprimenl("Ingrse su edad: ")
+  //Leer(num);
+}
+
+// Funcion para probar sintaxis
+funcion funEjemplo(n entero) entero {  
+   regresa n
 }

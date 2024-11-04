@@ -12,8 +12,8 @@ public class Lexico {
     private final List<String> cteLog = Arrays.asList("verdadero", "falso");
     private final List<String> palRes = Arrays.asList("interrumpe", "otro", "func", "interface", "selecciona",
             "caso", "difiere", "ir", "mapa", "estructura", "fmt", "Leer", "Imprime", "canal", "sino", "ir_a",
-            "paquete", "segun", "principal", "Imprimenl", "const", "si", "rango", "tipo", "entero", "decimal",
-            "logico", "alfabetica", "continua", "desde", "importar", "regresa", "var");
+            "paquete", "segun", "principal", "Imprimenl", "constante", "si", "rango", "tipo", "entero", "decimal",
+            "logico", "alfabetica", "continua", "desde", "importar", "regresa", "variable");
 
     private final int[][] matran = {
             { 1, 2, 14, 5, 6, 0, 8, 12, 10, 14, 15, 16 }, // 00 Estado inicial
