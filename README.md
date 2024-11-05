@@ -18,5 +18,6 @@
     2. Sentencia de control si, sino.     
     3. Sentencia de control desde
     4. Sentencia de control según
+    5. Llamada entre funciones
 
 ## Análisis semántico

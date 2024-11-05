@@ -10,7 +10,7 @@ public class Lexico {
     public String tok = "";
     public String lex = "";
     private final List<String> cteLog = Arrays.asList("verdadero", "falso");
-    private final List<String> palRes = Arrays.asList("interrumpe", "otro", "func", "interface", "selecciona",
+    private final List<String> palRes = Arrays.asList("interrumpe", "otro", "funcion", "interface", "selecciona",
             "caso", "difiere", "ir", "mapa", "estructura", "fmt", "Leer", "Imprime", "canal", "sino", "ir_a",
             "paquete", "segun", "principal", "Imprimenl", "constante", "si", "rango", "tipo", "entero", "decimal",
             "logico", "alfabetico", "continua", "desde", "importar", "regresa", "variable");

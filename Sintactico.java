@@ -378,7 +378,7 @@ public class Sintactico {
         lex = result[1];
 
         // Verificar si hay más funciones
-        if (lex.equals("func")) {
+        if (lex.equals("funcion")) {
             funciones();
         }
     }

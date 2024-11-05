@@ -5,11 +5,11 @@ variable num entero
 constante SALUDO alfabetico="HOLA"
 
 // Funcion principal
-func principal() {
+funcion principal() {
   fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
 }
 
 // Funcion de ejemplo con parametros y tipo de dato
-func sumaNumeros(n entero) entero {
-  regresa "debe falar por tipo de dato no igual"
+funcion sumaNumeros(n entero) entero {
+  regresa dato
 }
