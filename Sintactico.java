@@ -73,8 +73,10 @@ public class Sintactico {
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
-        if (lex.equals("["))
-            dimen();
+        if (lex.equals("[")) {
+            arreglo();
+            return;
+        }
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(lex)) {
             erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", lex);
         }
@@ -282,6 +284,93 @@ public class Sintactico {
         if (!lex.equals("}")) {
             estatutos();
         }
+    }
+
+    public void arreglo() {
+        // Verificar que el siguiente token sea un número entero
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!tok.equals("Ent")) {
+            erra("Error de Sintaxis", "Se esperaba un número entero y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar que el siguiente token sea ']'
+        if (!lex.equals("]")) {
+            erra("Error de Sintaxis", "Se esperaba ']' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar que el siguiente token sea un tipo de dato
+        String tipoDato = lex;
+        if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(tipoDato)) {
+            erra("Error de Sintaxis", "Se esperaba un tipo de dato y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar que el siguiente token sea '{'
+        if (!lex.equals("{")) {
+            erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar que los elementos dentro de '{}' sean del tipo de dato declarado
+        while (!lex.equals("}")) {
+            boolean tipoValido = false;
+            switch (tipoDato) {
+                case "alfabetico":
+                    tipoValido = tok.equals("CtA");
+                    break;
+                case "decimal":
+                    tipoValido = tok.equals("Dec");
+                    break;
+                case "entero":
+                    tipoValido = tok.equals("Ent");
+                    break;
+                case "logico":
+                    tipoValido = tok.equals("CtL");
+                    break;
+            }
+
+            if (!tipoValido) {
+                erra("Error de Sintaxis", "Se esperaba un valor del tipo de dato " + tipoDato + " y llegó", lex);
+                return;
+            }
+
+            result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+
+            if (lex.equals(",")) {
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+            } else if (!lex.equals("}")) {
+                erra("Error de Sintaxis", "Se esperaba ',' o '}' y llegó", lex);
+                return;
+            }
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
     }
 
     public void funciones() {
