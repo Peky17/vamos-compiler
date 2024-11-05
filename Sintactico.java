@@ -5,6 +5,8 @@ public class Sintactico {
     public String tok = "";
     public String lex = "";
     public boolean errB = false;
+    // Variable para almacenar el tipo de retorno actual
+    public String tipoRetornoActual = "";
 
     public Sintactico(Lexico lexico) {
         this.lexico = lexico;
@@ -41,6 +43,21 @@ public class Sintactico {
     }
 
     public void dimen() {
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!tok.equals("Ent")) {
+            erra("Error de Sintaxis", "Se esperaba constante entera y llego", lex);
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!lex.equals("]")) {
+            erra("Error de Sintaxis", "Se esperaba ] y llego", lex);
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
     }
 
     public void gpoctes() {
@@ -84,6 +101,29 @@ public class Sintactico {
     }
 
     public void pars() {
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!tok.equals("Ide")) {
+            erra("Error de Sintaxis", "Se esperaba identificador y llego", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(lex)) {
+            erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (lex.equals(",")) {
+            pars();
+        }
+    }
+
+    public void udim() {
     }
 
     public void fmtleer() {
@@ -110,9 +150,6 @@ public class Sintactico {
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
-    }
-
-    public void udim() {
     }
 
     public void termino() {
@@ -222,6 +259,13 @@ public class Sintactico {
             else {
                 erra("Error de Sintaxis", "Se esperaba funcion de lib fmt [Leer, Imprime o Imprimnl] y llego", lex);
             }
+        } else if (lex.equals("regresa")) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            expr(); // Procesar la expresión de retorno
+        } else {
+            erra("Error de Sintaxis", "Comando no reconocido", lex);
         }
     }
 
@@ -244,40 +288,99 @@ public class Sintactico {
         String[] result = lexico.lexico();
         tok = result[0];
         lex = result[1];
+
+        // Verificar nombre de la función (excepto para 'principal')
         if (!lex.equals("principal") && !tok.equals("Ide")) {
-            erra("Error de Sintaxis", "Se esperaba nombre de funcion y llego", lex);
+            erra("Error de Sintaxis", "Se esperaba nombre de función y llegó", lex);
+            return;
         }
+
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
+
+        // Verificar apertura de paréntesis para los parámetros
         if (!lex.equals("(")) {
-            erra("Error de Sintaxis", "Se esperaba ( y llego", lex);
+            erra("Error de Sintaxis", "Se esperaba '(' y llegó", lex);
+            return;
         }
+
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
-        if (!lex.equals(")"))
-            pars();
+
+        // Procesar parámetros de la función, si los hay
         if (!lex.equals(")")) {
-            erra("Error de Sintaxis", "Se esperaba ) y llego", lex);
+            while (true) {
+                // Verificar que el parámetro tenga un identificador
+                if (!tok.equals("Ide")) {
+                    erra("Error de Sintaxis", "Se esperaba identificador y llegó", lex);
+                    return;
+                }
+
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+
+                // Verificar que el identificador vaya seguido de un tipo
+                if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(lex)) {
+                    erra("Error de Sintaxis", "Se esperaba un tipo de dato y llegó", lex);
+                    return;
+                }
+
+                // Avanzar al siguiente token
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+
+                // Comprobar si hay más parámetros o cerrar paréntesis
+                if (lex.equals(")")) {
+                    break; // Fin de la lista de parámetros
+                } else if (!lex.equals(",")) {
+                    erra("Error de Sintaxis", "Se esperaba ',' o ')' y llegó", lex);
+                    return;
+                }
+
+                // Avanzar al siguiente parámetro después de la coma
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+            }
         }
+
+        // Verificar cierre de paréntesis de parámetros
+        if (!lex.equals(")")) {
+            erra("Error de Sintaxis", "Se esperaba ')' y llegó", lex);
+            return;
+        }
+
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
+
+        // Verificar tipo de retorno opcional
         if (Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(lex)) {
             result = lexico.lexico();
             tok = result[0];
             lex = result[1];
         }
-        if (lex.equals("{"))
-            bloque();
-        else {
-            erra("Error de Sintaxis", "Se esperaba { y llego", lex);
+
+        // Verificar apertura de bloque de la función
+        if (!lex.equals("{")) {
+            erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+            return;
+        } else {
+            bloque(); // Llamada para procesar el bloque de la función
         }
+
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
-        if (lex.equals("func"))
+
+        // Verificar si hay más funciones
+        if (lex.equals("func")) {
             funciones();
+        }
     }
+
 }

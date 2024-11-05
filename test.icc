@@ -2,16 +2,14 @@
 importar "fmt"
 
 variable num entero
-constante total entero=10
+constante SALUDO alfabetico="HOLA"
 
 // Funcion principal
 func principal() {
   fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
-  //fmt.Imprimenl("Ingrse su edad: ")
-  //Leer(num);
 }
 
-// Funcion para probar sintaxis
-funcion funEjemplo(n entero) entero {  
-   regresa n
+// Funcion de ejemplo con parametros y tipo de dato
+func sumaNumeros(n entero) entero {
+  regresa "debe falar por tipo de dato no igual"
 }
