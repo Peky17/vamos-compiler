@@ -8,11 +8,12 @@
 
 ## Funcionalidades implmentadas (Análisis Sintáctico)
 
-    1. Declaración de funciones con parametros y tipo de dato
-    2. Declaracion de comando "regresa"
-    3. Definición de vectores "arreglos".
-    4. Sentencia de control si, sino con OpRel ==, !=, <=, >=. 
-    5. Definición de sentencia si con && (y), || (o)    
+    1. Declaración de múltiples variables o constantes en una sola línea
+    2. Declaración de funciones con parametros y tipo de dato
+    3. Declaracion de comando "regresa"
+    4. Definición de vectores "arreglos".
+    5. Sentencia de control si, sino con OpRel ==, !=, <=, >=. 
+    6. Definición de sentencia si con && (y), || (o)    
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 

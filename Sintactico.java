@@ -71,6 +71,17 @@ public class Sintactico {
         result = lexico.lexico();
         tok = result[0];
         lex = result[1];
+        while (lex.equals(",")) {
+            result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            if (!tok.equals("Ide")) {
+                erra("Error de Sintaxis", "Se esperaba Ide y llego", lex);
+            }
+            result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+        }
         if (lex.equals("[")) {
             arreglo();
             return;
@@ -96,8 +107,9 @@ public class Sintactico {
                 lex = result[1];
             }
         }
-        if (lex.equals(","))
+        if (lex.equals(",")) {
             varsconsts();
+        }
     }
 
     public void pars() {

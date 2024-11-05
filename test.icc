@@ -4,6 +4,8 @@ importar "fmt"
 constante SALUDO alfabetico="HOLA"
 variable num entero
 constante vector[4]entero{10, 20, 30, 60}
+constante MAX entero=10
+variable fibo, fiba entero
 
 // Funcion principal
 funcion principal() {
