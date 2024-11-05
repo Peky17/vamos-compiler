@@ -11,11 +11,12 @@
     1. Declaración de funciones con parametros y tipo de dato
     2. Declaracion de comando "regresa"
     3. Definición de vectores "arreglos".
+    4. Sentencia de control si, sino con OpRel ==, !=, <=, >=. 
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
     1. Verificar si es necesario que el return sea estricto con el tipo de dato de la función 
-    2. Sentencia de control si, sino.     
+    2. Definición de sentencia si con && (y), || (o)    
     3. Sentencia de control desde
     4. Sentencia de control según
     5. Llamada entre funciones

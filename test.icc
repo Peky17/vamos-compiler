@@ -14,3 +14,20 @@ funcion principal() {
 funcion sumaNumeros(n entero) entero {
   regresa n
 }
+
+// Funcion para probar la sentencia de control si
+funcion validar(dato entero){
+  si (dato == 1) {
+    fmt.Imprimenl("El dato es uno")
+  } sino {
+    fmt.Imprimenl("El dato no es uno")
+  }
+
+  si (dato != 1) {
+    fmt.Imprimenl("El dato no es uno")
+  }
+
+  si (dato >= 1) {
+    fmt.Imprimenl("El dato es mayor o igual a uno")
+  }
+}

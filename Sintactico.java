@@ -5,8 +5,6 @@ public class Sintactico {
     public String tok = "";
     public String lex = "";
     public boolean errB = false;
-    // Variable para almacenar el tipo de retorno actual
-    public String tipoRetornoActual = "";
 
     public Sintactico(Lexico lexico) {
         this.lexico = lexico;
@@ -173,6 +171,12 @@ public class Sintactico {
 
     public void oprel() {
         termino();
+        while (Arrays.asList("==", "!=", "<", ">", "<=", ">=").contains(lex)) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            termino();
+        }
     }
 
     public void opy() {
@@ -266,6 +270,8 @@ public class Sintactico {
             tok = result[0];
             lex = result[1];
             expr(); // Procesar la expresión de retorno
+        } else if (lex.equals("si")) {
+            siSino();
         } else {
             erra("Error de Sintaxis", "Comando no reconocido", lex);
         }
@@ -283,6 +289,67 @@ public class Sintactico {
         lex = result[1];
         if (!lex.equals("}")) {
             estatutos();
+        }
+    }
+
+    public void siSino() {
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar que la condición esté entre paréntesis
+        if (!lex.equals("(")) {
+            erra("Error de Sintaxis", "Se esperaba '(' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Procesar la condición
+        expr();
+
+        if (!lex.equals(")")) {
+            erra("Error de Sintaxis", "Se esperaba ')' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar apertura de bloque
+        if (!lex.equals("{")) {
+            erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+            return;
+        }
+
+        // Procesar el bloque de código
+        bloque();
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar si hay un "sino"
+        if (lex.equals("sino")) {
+            result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+
+            // Verificar apertura de bloque
+            if (!lex.equals("{")) {
+                erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+                return;
+            }
+
+            // Procesar el bloque de código del "sino"
+            bloque();
+
+            result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
         }
     }
 

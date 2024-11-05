@@ -55,7 +55,7 @@ public class Lexico {
             return 5;
         if ("<>".indexOf(s) != -1)
             return 6;
-        if (s == '=')
+        if (s == '!' || s == '=')
             return 7;
         if (s == '"')
             return 8;
