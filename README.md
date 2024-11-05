@@ -15,7 +15,7 @@
     5. Definición de sentencia si con && (y), || (o)    
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
- 
+
     1. Sentencia de control desde
     2. Sentencia de control según
     3. Llamada entre funciones
