@@ -169,27 +169,23 @@ public class Sintactico {
         lex = result[1];
     }
 
-    public void oprel() {
-        termino();
-        while (Arrays.asList("==", "!=", "<", ">", "<=", ">=").contains(lex)) {
+    public void expr() {
+        opy();
+        while (lex.equals("o") || lex.equals("||")) {
             String[] result = lexico.lexico();
             tok = result[0];
             lex = result[1];
-            termino();
+            opy();
         }
     }
 
     public void opy() {
-        String op = "y";
-        while (op.equals("y")) {
-            op = "";
+        opno();
+        while (lex.equals("y") || lex.equals("&&")) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
             opno();
-            if (lex.equals("y")) {
-                op = lex;
-                String[] result = lexico.lexico();
-                tok = result[0];
-                lex = result[1];
-            }
         }
     }
 
@@ -202,17 +198,13 @@ public class Sintactico {
         oprel();
     }
 
-    public void expr() {
-        String op = "o";
-        while (op.equals("o")) {
-            op = "";
-            opy();
-            if (lex.equals("o")) {
-                op = lex;
-                String[] result = lexico.lexico();
-                tok = result[0];
-                lex = result[1];
-            }
+    public void oprel() {
+        termino();
+        while (Arrays.asList("==", "!=", "<", ">", "<=", ">=").contains(lex)) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            termino();
         }
     }
 
@@ -297,27 +289,8 @@ public class Sintactico {
         tok = result[0];
         lex = result[1];
 
-        // Verificar que la condición esté entre paréntesis
-        if (!lex.equals("(")) {
-            erra("Error de Sintaxis", "Se esperaba '(' y llegó", lex);
-            return;
-        }
-
-        result = lexico.lexico();
-        tok = result[0];
-        lex = result[1];
-
         // Procesar la condición
         expr();
-
-        if (!lex.equals(")")) {
-            erra("Error de Sintaxis", "Se esperaba ')' y llegó", lex);
-            return;
-        }
-
-        result = lexico.lexico();
-        tok = result[0];
-        lex = result[1];
 
         // Verificar apertura de bloque
         if (!lex.equals("{")) {

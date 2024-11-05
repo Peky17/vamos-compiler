@@ -61,7 +61,7 @@ public class Lexico {
             return 8;
         if ("{}()[],:;".indexOf(s) != -1)
             return 9;
-        if ("|&!".indexOf(s) != -1)
+        if ("|&".indexOf(s) != -1)
             return 10; // Nueva columna para operadores lógicos
         if ("#$^¿¡?".indexOf(s) != -1)
             return 11; // Nueva columna para símbolos especiales
@@ -107,7 +107,7 @@ public class Lexico {
             if (estado == 10 && "\n\"".indexOf(c) == -1) {
                 col = 1;
             }
-            if (col >= 0 && col <= 9) {
+            if (col >= 0 && col <= 11) {
                 estAnt = estado;
                 estado = matran[estado][col];
                 if (estado == ERR || estado == ACP) {
