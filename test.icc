@@ -5,7 +5,7 @@ constante SALUDO alfabetico="HOLA"
 variable num entero
 constante vector[4]entero{10, 20, 30, 60}
 constante MAX entero=10
-variable fibo, fiba entero
+variable i, j entero
 
 // Funcion principal
 funcion principal() {
@@ -18,7 +18,7 @@ funcion sumaNumeros(n entero) entero {
 }
 
 // Funcion para probar la sentencia de control si
-funcion validar(dato entero){
+funcion validarSi(dato entero){
   si dato == 1 {
     fmt.Imprimenl("El dato es uno")
   } sino {
@@ -40,4 +40,10 @@ funcion validar(dato entero){
   si dato >= 1 || dato < 50 {
     fmt.Imprimenl("El dato es mayor o igual a uno o es menor a 50")
   }
+}
+
+funcion testDesde(){
+  // Probar desde
+  desde i = 0; i < MAX; i = i + 1 { 
+    fmt.Imprimenl(i)
 }

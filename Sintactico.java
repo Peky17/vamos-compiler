@@ -164,23 +164,6 @@ public class Sintactico {
         lex = result[1];
     }
 
-    public void termino() {
-        if (lex.equals("(")) {
-            String[] result = lexico.lexico();
-            tok = result[0];
-            lex = result[1];
-            expr();
-            if (!lex.equals(")")) {
-                erra("Error de Sintaxis", "Se esperaba \")\" y llego", lex);
-            }
-        } else if (Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(tok)) {
-            // Do nothing
-        }
-        String[] result = lexico.lexico();
-        tok = result[0];
-        lex = result[1];
-    }
-
     public void expr() {
         opy();
         while (lex.equals("o") || lex.equals("||")) {
@@ -211,13 +194,52 @@ public class Sintactico {
     }
 
     public void oprel() {
-        termino();
+        opadd();
         while (Arrays.asList("==", "!=", "<", ">", "<=", ">=").contains(lex)) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            opadd();
+        }
+    }
+
+    public void opadd() {
+        opmul();
+        while (Arrays.asList("+", "-").contains(lex)) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            opmul();
+        }
+    }
+
+    public void opmul() {
+        termino();
+        while (Arrays.asList("*", "/", "%").contains(lex)) {
             String[] result = lexico.lexico();
             tok = result[0];
             lex = result[1];
             termino();
         }
+    }
+
+    public void termino() {
+        if (lex.equals("(")) {
+            String[] result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+            expr();
+            if (!lex.equals(")")) {
+                erra("Error de Sintaxis", "Se esperaba \")\" y llego", lex);
+            }
+        } else if (Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(tok) || tok.equals("Ide")) {
+            // Do nothing
+        } else {
+            erra("Error de Sintaxis", "Se esperaba un término y llegó", lex);
+        }
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
     }
 
     public void fmtimprime() {
@@ -250,6 +272,7 @@ public class Sintactico {
     }
 
     public void comando() {
+        // System.out.println("Token actual: " + tok + ", Lexema: " + lex); // Debugging
         if (lex.equals("fmt")) {
             String[] result = lexico.lexico();
             tok = result[0];
@@ -276,6 +299,10 @@ public class Sintactico {
             expr(); // Procesar la expresión de retorno
         } else if (lex.equals("si")) {
             siSino();
+        } else if (lex.equals("desde")) {
+            desde();
+        } else if (lex.equals("segun")) {
+            segun();
         } else {
             erra("Error de Sintaxis", "Comando no reconocido", lex);
         }
@@ -336,6 +363,94 @@ public class Sintactico {
             tok = result[0];
             lex = result[1];
         }
+    }
+
+    public void desde() {
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Inicialización
+        if (!tok.equals("Ide")) {
+            erra("Error de Sintaxis", "Se esperaba un identificador para la inicialización y llegó", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!lex.equals("=")) {
+            erra("Error de Sintaxis", "Se esperaba '=' y llegó", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!tok.equals("Ent")) {
+            erra("Error de Sintaxis", "Se esperaba un valor entero para la inicialización y llegó", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!lex.equals(";")) {
+            erra("Error de Sintaxis", "Se esperaba ';' y llegó", lex);
+            return;
+        }
+
+        // Condición
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        expr();
+        if (!lex.equals(";")) {
+            erra("Error de Sintaxis", "Se esperaba ';' y llegó", lex);
+            return;
+        }
+
+        // Incremento
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!tok.equals("Ide")) {
+            erra("Error de Sintaxis", "Se esperaba un identificador para el incremento y llegó", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        if (!lex.equals("=")) {
+            erra("Error de Sintaxis", "Se esperaba '=' y llegó", lex);
+            return;
+        }
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+        expr();
+
+        // Verificar apertura de bloque
+        if (!lex.equals("{")) {
+            erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+            return;
+        }
+
+        // Procesar el bloque de código
+        bloque();
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+    }
+
+    public void segun() {
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Aquí puedes agregar la lógica para procesar la sentencia "segun"
+        // Por ejemplo, podrías verificar la estructura de la sentencia "segun"
+        // y avanzar el índice del analizador léxico adecuadamente.
+
+        System.err.println("Estoy en segun");
     }
 
     public void arreglo() {
