@@ -20,11 +20,11 @@
     5. Sentencia de control si, sino con OpRel ==, !=, <=, >=. 
     6. Definición de sentencia si con && (y), || (o)
     7. Definición de sentencia iterativa "desde" con [inicialización de iterador]; [condición]; [actualización de iterador] { bloque }   
+    8. Definición de sentencia iterativa "desde" únicamente con bloque: desde { bloque }
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
-    1. 
-    2. Sentencia de control según
-    3. Llamada entre funciones
+    1. Sentencia de control según
+    2. Llamada entre funciones
 
 ## Análisis semántico

@@ -42,8 +42,16 @@ funcion validarSi(dato entero){
   }
 }
 
-funcion testDesde(){
-  // Probar desde
+funcion testDesdeSimple(){
+  // probar desde con sintaxis simple
+  desde {
+    fmt.Imprimenl("Imprimiedo en bucle")
+  }
+}
+
+funcion testDesdeCompleto(){
+  // Probar desde con sintaxis completa
   desde i = 0; i < MAX; i = i + 1 { 
     fmt.Imprimenl(i)
+  }
 }

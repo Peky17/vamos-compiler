@@ -272,7 +272,6 @@ public class Sintactico {
     }
 
     public void comando() {
-        // System.out.println("Token actual: " + tok + ", Lexema: " + lex); // Debugging
         if (lex.equals("fmt")) {
             String[] result = lexico.lexico();
             tok = result[0];
@@ -370,6 +369,12 @@ public class Sintactico {
         tok = result[0];
         lex = result[1];
 
+        // Verificar si es la sintaxis simple
+        if (lex.equals("{")) {
+            desdeSimple();
+            return;
+        }
+
         // Inicialización
         if (!tok.equals("Ide")) {
             erra("Error de Sintaxis", "Se esperaba un identificador para la inicialización y llegó", lex);
@@ -437,6 +442,21 @@ public class Sintactico {
         bloque();
 
         result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+    }
+
+    public void desdeSimple() {
+        // Verificar apertura de bloque
+        if (!lex.equals("{")) {
+            erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+            return;
+        }
+
+        // Procesar el bloque de código
+        bloque();
+
+        String[] result = lexico.lexico();
         tok = result[0];
         lex = result[1];
     }
