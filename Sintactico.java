@@ -302,6 +302,8 @@ public class Sintactico {
             desde();
         } else if (lex.equals("segun")) {
             segun();
+        } else if (tok.equals("Ide")) { // Verificar si es una llamada a función
+            llamadaFuncion();
         } else {
             erra("Error de Sintaxis", "Comando no reconocido", lex);
         }
@@ -659,4 +661,50 @@ public class Sintactico {
         }
     }
 
+    public void llamadaFuncion() {
+        String nombreFuncion = lex;
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar apertura de paréntesis
+        if (!lex.equals("(")) {
+            erra("Error de Sintaxis", "Se esperaba '(' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Procesar parámetros de la función, si los hay
+        if (!lex.equals(")")) {
+            while (true) {
+                expr(); // Procesar cada parámetro como una expresión
+
+                // Comprobar si hay más parámetros o cerrar paréntesis
+                if (lex.equals(")")) {
+                    break; // Fin de la lista de parámetros
+                } else if (!lex.equals(",")) {
+                    erra("Error de Sintaxis", "Se esperaba ',' o ')' y llegó", lex);
+                    return;
+                }
+
+                // Avanzar al siguiente parámetro después de la coma
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+            }
+        }
+
+        // Verificar cierre de paréntesis
+        if (!lex.equals(")")) {
+            erra("Error de Sintaxis", "Se esperaba ')' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+    }
 }

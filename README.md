@@ -21,10 +21,11 @@
     6. Definición de sentencia si con && (y), || (o)
     7. Definición de sentencia iterativa "desde" con [inicialización de iterador]; [condición]; [actualización de iterador] { bloque }   
     8. Definición de sentencia iterativa "desde" únicamente con bloque: desde { bloque }
+    9. Llamada entre funciones sin validación semántica.
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
     1. Sentencia de control según
-    2. Llamada entre funciones
+    2. Expresiones que permitan parentesis en operaciones aritméticas
 
 ## Análisis semántico
