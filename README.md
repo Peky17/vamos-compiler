@@ -27,8 +27,7 @@
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
     1. Expresiones que permitan parentesis en operaciones aritméticas.
-    2. Definición de la sentencia "segun".
-
+    
 ## Análisis semántico
 
     1. Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 
