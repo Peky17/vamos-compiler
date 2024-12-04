@@ -61,13 +61,13 @@ funcion testDesdeCompleto(n entero, n2 entero){
 
 funcion testSegun(){
   // Probar con tipo alfabetico
-  //segun nom {
-    //caso "Juan":
-      //fmt.Imprimenl("El nombre es Juan")
-    //interrumpe
-    //predeterminado:
-      //fmt.Imprimenl("El nombre no coincide")
-  //}
+  segun nom {
+    caso "Juan":
+      fmt.Imprimenl("El nombre es Juan")
+    interrumpe
+    predeterminado:
+      fmt.Imprimenl("El nombre no coincide")
+  }
 
   // probar con tipo entero
   segun num {
