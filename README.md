@@ -11,6 +11,8 @@
 
     * Implementé los estados #15, #16, #17 en la matriz de transición para aceptar los operadores lógicos y los símbolos especiales.
 
+    * Implementé un nuevo estado para los delimitadores, específicamente para reconocer el delimitador ":" en la sentencia de control "segun"
+
 ## Funcionalidades implmentadas (Análisis Sintáctico)
 
     1. Declaración de múltiples variables o constantes en una sola línea
