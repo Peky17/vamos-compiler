@@ -22,10 +22,13 @@
     7. Definición de sentencia iterativa "desde" con [inicialización de iterador]; [condición]; [actualización de iterador] { bloque }   
     8. Definición de sentencia iterativa "desde" únicamente con bloque: desde { bloque }
     9. Llamada entre funciones sin validación semántica.
+    10. Sentencia de control según 
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
-    1. Sentencia de control según
-    2. Expresiones que permitan parentesis en operaciones aritméticas
+    1. Expresiones que permitan parentesis en operaciones aritméticas.
+    2. Definición de la sentencia "segun".
 
 ## Análisis semántico
+
+    1. Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 

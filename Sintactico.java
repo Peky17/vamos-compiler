@@ -302,6 +302,10 @@ public class Sintactico {
             desde();
         } else if (lex.equals("segun")) {
             segun();
+        } else if (lex.equals("interrumpe")) {
+            interrumpe();
+        } else if (lex.equals("predeterminado")) {
+            predeterminado();
         } else if (tok.equals("Ide")) { // Verificar si es una llamada a función
             llamadaFuncion();
         } else {
@@ -468,11 +472,117 @@ public class Sintactico {
         tok = result[0];
         lex = result[1];
 
-        // Aquí puedes agregar la lógica para procesar la sentencia "segun"
-        // Por ejemplo, podrías verificar la estructura de la sentencia "segun"
-        // y avanzar el índice del analizador léxico adecuadamente.
+        // Verificar que el siguiente token sea un identificador
+        if (!tok.equals("Ide")) {
+            erra("Error de Sintaxis", "Se esperaba un identificador y llegó", lex);
+            return;
+        }
 
-        System.err.println("Estoy en segun");
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar apertura de bloque
+        if (!lex.equals("{")) {
+            erra("Error de Sintaxis", "Se esperaba '{' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Procesar los casos dentro del bloque
+        while (!lex.equals("}")) {
+            if (lex.equals("caso")) {
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+
+                // Verificar que el caso sea una constante válida
+                if (!Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(tok)) {
+                    erra("Error de Sintaxis", "Se esperaba una constante válida y llegó", lex);
+                    return;
+                }
+
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+
+                // Verificar que el siguiente token sea ':'
+                if (!lex.equals(":")) {
+                    erra("Error de Sintaxis", "Se esperaba ':' y llegó", lex);
+                    return;
+                }
+
+                result = lexico.lexico();
+                tok = result[0];
+                lex = result[1];
+
+                // Procesar los comandos dentro del caso
+                while (!lex.equals("}") && !lex.equals("caso") && !lex.equals("predeterminado")
+                        && !lex.equals("interrumpe")) {
+                    comando();
+                    result = lexico.lexico();
+                    tok = result[0];
+                    lex = result[1];
+                }
+
+                // Verificar si hay un interrumpe
+                if (lex.equals("interrumpe")) {
+                    interrumpe();
+                    result = lexico.lexico();
+                    tok = result[0];
+                    lex = result[1];
+                }
+            } else if (lex.equals("predeterminado")) {
+                predeterminado();
+            } else {
+                erra("Error de Sintaxis", "Se esperaba 'caso' o 'predeterminado' y llegó", lex);
+                return;
+            }
+        }
+
+        // Verificar cierre de bloque
+        if (!lex.equals("}")) {
+            erra("Error de Sintaxis", "Se esperaba '}' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+    }
+
+    public void predeterminado() {
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Verificar que el siguiente token sea ':'
+        if (!lex.equals(":")) {
+            erra("Error de Sintaxis", "Se esperaba ':' y llegó", lex);
+            return;
+        }
+
+        result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
+
+        // Procesar los comandos dentro del caso predeterminado
+        while (!lex.equals("}") && !lex.equals("caso") && !lex.equals("predeterminado")) {
+            comando();
+            result = lexico.lexico();
+            tok = result[0];
+            lex = result[1];
+        }
+    }
+
+    public void interrumpe() {
+        // Simplemente avanzar al siguiente token
+        String[] result = lexico.lexico();
+        tok = result[0];
+        lex = result[1];
     }
 
     public void arreglo() {

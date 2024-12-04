@@ -11,29 +11,33 @@ public class Lexico {
     public String lex = "";
     private final List<String> cteLog = Arrays.asList("verdadero", "falso");
     private final List<String> palRes = Arrays.asList("interrumpe", "otro", "funcion", "interface", "selecciona",
-            "caso", "difiere", "ir", "mapa", "estructura", "fmt", "Leer", "Imprime", "canal", "sino", "ir_a",
-            "paquete", "segun", "principal", "Imprimenl", "constante", "si", "rango", "tipo", "entero", "decimal",
-            "logico", "alfabetico", "continua", "desde", "importar", "regresa", "variable");
+            "caso", "predeterminado", "difiere", "ir", "mapa", "estructura", "fmt", "Leer", "Imprime", "canal", "sino",
+            "ir_a", "paquete", "segun", "principal", "Imprimenl", "constante", "si", "rango", "tipo", "entero",
+            "decimal", "logico", "alfabetico", "continua", "desde", "importar", "regresa", "variable");
 
     private final int[][] matran = {
-            { 1, 2, 14, 5, 6, 0, 8, 12, 10, 14, 15, 16 }, // 00 Estado inicial
-            { 1, 1, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 01 Estado para identificadores
-            { ACP, 2, 3, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 02 Estado para constantes enteras
-            { ERR, 4, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR }, // 03 Estado para constantes decimales
-            { ACP, 4, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 04 Estado para constantes decimales
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 05 Estado para operadores aritméticos
-            { ACP, ACP, ACP, ACP, 7, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 06 Estado para /
-            { 7, 7, 7, 5, 6, ACP, 7, 7, 7, ACP, 7, 7 }, // 07 Estado para comentarios de línea
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 9, ACP, ACP, ACP, ACP }, // 08 Estado para "
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 09 Estado para constantes alfabéticas
-            { 10, 10, 10, 10, 10, ERR, 10, 10, 11, 10, 10, 10 }, // 10 Estado para operadores relacionales
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 11 Estado para operadores relacionales
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 13, ACP, ACP, ACP, ACP }, // 12 Estado para [
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 13 Estado para ]
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 14 Estado para .
-            { 15, 15, 15, 15, 15, ERR, 15, 15, 15, 15, 17, 15 }, // 15 Estado para operadores lógicos
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 16 Estado para símbolos especiales
-            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP } // 17 Estado para operadores lógicos
+            { 1, 2, 14, 5, 6, 0, 8, 12, 10, 14, 15, 16, 18 }, // 00 Estado inicial
+            { 1, 1, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 01 Estado para identificadores
+            { ACP, 2, 3, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 02 Estado para constantes enteras
+            { ERR, 4, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR }, // 03 Estado para constantes decimales
+            { ACP, 4, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 04 Estado para constantes decimales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 05 Estado para operadores
+                                                                                 // aritméticos
+            { ACP, ACP, ACP, ACP, 7, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 06 Estado para /
+            { 7, 7, 7, 5, 6, ACP, 7, 7, 7, ACP, 7, 7, ACP }, // 07 Estado para comentarios de línea
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 9, ACP, ACP, ACP, ACP, ACP }, // 08 Estado para "
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 09 Estado para constantes
+                                                                                 // alfabéticas
+            { 10, 10, 10, 10, 10, ERR, 10, 10, 11, 10, 10, 10, ACP }, // 10 Estado para operadores relacionales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 11 Estado para operadores
+                                                                                 // relacionales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, 13, ACP, ACP, ACP, ACP, ACP }, // 12 Estado para [
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 13 Estado para ]
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 14 Estado para .
+            { 15, 15, 15, 15, 15, ERR, 15, 15, 15, 15, 17, 15, ACP }, // 15 Estado para operadores lógicos
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 16 Estado para símbolos especiales
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 17 Estado para operadores lógicos
+            { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP } // 18 Estado para delimitadores ":"
     };
 
     public void erra(String tipE, String desE, String strE) {
@@ -59,12 +63,14 @@ public class Lexico {
             return 7;
         if (s == '"')
             return 8;
-        if ("{}()[],:;".indexOf(s) != -1)
+        if ("{}()[],;".indexOf(s) != -1)
             return 9;
         if ("|&".indexOf(s) != -1)
-            return 10; // Nueva columna para operadores lógicos
+            return 10; // columna para operadores lógicos
         if ("#$^¿¡?".indexOf(s) != -1)
-            return 11; // Nueva columna para símbolos especiales
+            return 11; // columna para símbolos especiales
+        if (s == ':')
+            return 12; // columna para delimitadores
         return ERR;
     }
 
@@ -107,7 +113,7 @@ public class Lexico {
             if (estado == 10 && "\n\"".indexOf(c) == -1) {
                 col = 1;
             }
-            if (col >= 0 && col <= 11) {
+            if (col >= 0 && col <= 12) { // Asegurarse de que la columna 12 (:) esté incluida
                 estAnt = estado;
                 estado = matran[estado][col];
                 if (estado == ERR || estado == ACP) {
@@ -191,6 +197,10 @@ public class Lexico {
                 lex = lexema.toString();
                 tok = "OpL";
                 break;
+            case 18:
+                lex = lexema.toString();
+                tok = "Del";
+                break;
         }
 
         return new String[] { tok, lex };
@@ -198,6 +208,7 @@ public class Lexico {
 
     public String[] lexico() {
         String[] result = scanner();
+        // Ignorar comentarios
         while (result[0].equals("Com")) {
             result = scanner();
         }

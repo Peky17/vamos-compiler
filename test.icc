@@ -6,10 +6,13 @@ variable num entero
 constante vector[4]entero{10, 20, 30, 60}
 constante MAX entero=10
 variable i, j entero
+variable nom alfabetico="Juan"
 
 // Funcion principal
 funcion principal() {
   fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
+  // Llamar funcion
+  testDesdeCompleto(hola)
 }
 
 // Funcion de ejemplo con parametros y tipo de dato
@@ -49,9 +52,29 @@ funcion testDesdeSimple(){
   }
 }
 
-funcion testDesdeCompleto(){
+funcion testDesdeCompleto(n entero, n2 entero){
   // Probar desde con sintaxis completa
   desde i = 0; i < MAX; i = i + 1 { 
     fmt.Imprimenl(i)
+  }
+}
+
+funcion testSegun(){
+  // Probar con tipo alfabetico
+  //segun nom {
+    //caso "Juan":
+      //fmt.Imprimenl("El nombre es Juan")
+    //interrumpe
+    //predeterminado:
+      //fmt.Imprimenl("El nombre no coincide")
+  //}
+
+  // probar con tipo entero
+  segun num {
+    caso 1:
+      fmt.Imprimenl("El numero es 1")
+    interrumpe
+    predeterminado:
+      fmt.Imprimenl("El numero no coincide")
   }
 }
