@@ -1,10 +1,12 @@
 package semantico;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
 import sintactico.Sintactico;
+import utils.ErrorManager;
 
 public class Semantico {
     private Sintactico sintactico;
@@ -30,14 +32,13 @@ public class Semantico {
                 }
                 break;
             } catch (IOException e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error al cargar el código: " + e.getMessage());
             }
         }
 
         System.out.println(sintactico.lexico.entrada + "\n"); // Muestra el contenido cargado
 
         sintactico.lexico.idx = 0;
-        sintactico.errB = false;
 
         // Inicia el análisis
         String[] result = sintactico.lexico.lexico();
@@ -55,9 +56,10 @@ public class Semantico {
 
         // Análisis de funciones y validación de errores
         sintactico.funcionesHandler.funciones();
+        boolean errEstatus = ErrorManager.getInstance().hasError();
 
         // Verifica y muestra el mensaje de compilación
-        if (!sintactico.errB) {
+        if (!errEstatus) {
             System.out.println("\n" + archE + " Compiló con EXITO!!!");
         } else {
             System.out.println("\n" + archE + " Error en la compilación.");

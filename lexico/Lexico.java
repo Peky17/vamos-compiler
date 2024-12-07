@@ -3,6 +3,8 @@ package lexico;
 import java.util.Arrays;
 import java.util.List;
 
+import utils.ErrorManager;
+
 public class Lexico {
     private final int ERR = -1;
     private final int ACP = 999;
@@ -42,7 +44,7 @@ public class Lexico {
     };
 
     public void erra(String tipE, String desE, String strE) {
-        System.out.println(tipE + " " + desE + " " + strE);
+        ErrorManager.getInstance().reportError(tipE, desE, strE);
     }
 
     public int colCar(char s) {

@@ -6,12 +6,12 @@ import handlers.Funciones;
 import handlers.Importar;
 import handlers.Variables;
 import lexico.Lexico;
+import utils.ErrorManager;
 
 public class Sintactico {
     public Lexico lexico;
     public String tok = "";
     public String lex = "";
-    public boolean errB = false;
 
     public Importar importarHandler;
     public Variables variablesHandler;
@@ -29,7 +29,6 @@ public class Sintactico {
     }
 
     public void erra(String tipE, String desE, String strE) {
-        errB = true;
-        System.out.println(tipE + " " + desE + " " + strE);
+        ErrorManager.getInstance().reportError(tipE, desE, strE);
     }
 }
