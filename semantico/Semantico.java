@@ -1,7 +1,10 @@
+package semantico;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+
+import sintactico.Sintactico;
 
 public class Semantico {
     private Sintactico sintactico;
@@ -43,15 +46,15 @@ public class Semantico {
 
         // Proceso de importaciones y variables
         while (sintactico.lex.equals("importar")) {
-            sintactico.importar();
+            sintactico.importarHandler.importar();
         }
         while (sintactico.lex.equals("variable")
                 || sintactico.lex.equals("constante")) {
-            sintactico.varsconsts();
+            sintactico.variablesHandler.varsconsts();
         }
 
         // Análisis de funciones y validación de errores
-        sintactico.funciones();
+        sintactico.funcionesHandler.funciones();
 
         // Verifica y muestra el mensaje de compilación
         if (!sintactico.errB) {
@@ -59,5 +62,7 @@ public class Semantico {
         } else {
             System.out.println("\n" + archE + " Error en la compilación.");
         }
+
+        scanner.close();
     }
 }

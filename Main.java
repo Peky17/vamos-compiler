@@ -2,6 +2,10 @@
  * Autor: Enrique Bernardo González Vázquez 
 */
 
+import lexico.Lexico;
+import semantico.Semantico;
+import sintactico.Sintactico;
+
 public class Main {
     public static void main(String[] args) {
         Lexico lexico = new Lexico();

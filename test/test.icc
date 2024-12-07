@@ -12,7 +12,7 @@ variable nom alfabetico="Juan"
 funcion principal() {
   fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
   // Llamar funcion
-  testDesdeCompleto(hola)
+  sumaNumeros(num)
 }
 
 // Funcion de ejemplo con parametros y tipo de dato
@@ -77,4 +77,8 @@ funcion testSegun(){
     predeterminado:
       fmt.Imprimenl("El numero no coincide")
   }
+}
+
+funcion algo (){
+  fmt.Imprimenl("holaa")
 }
