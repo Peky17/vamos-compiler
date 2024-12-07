@@ -13,61 +13,62 @@ public class Expresiones {
 
     public void expr() {
         opy();
-        while (sintactico.lexico.lex.equals("o")
-                || sintactico.lexico.lex.equals("||")) {
+        while (sintactico.lex.equals("o")
+                || sintactico.lex.equals("||")) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
             opy();
         }
     }
 
     public void opy() {
         opno();
-        while (sintactico.lexico.lex.equals("y")
-                || sintactico.lexico.lex.equals("&&")) {
+        while (sintactico.lex.equals("y")
+                || sintactico.lex.equals("&&")) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
             opno();
         }
     }
 
     public void opno() {
-        if (sintactico.lexico.lex.equals("no")) {
+        if (sintactico.lex.equals("no")
+                || sintactico.lex.equals("!")) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
         }
         oprel();
     }
 
     public void oprel() {
         opadd();
-        while (Arrays.asList("==", "!=", "<", ">", "<=", ">=").contains(sintactico.lexico.lex)) {
+        while (Arrays.asList("==", "!=", "<", ">", "<=", ">=").contains(sintactico.lex)) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
             opadd();
         }
     }
 
     public void opadd() {
         opmul();
-        while (Arrays.asList("+", "-").contains(sintactico.lexico.lex)) {
+        while (Arrays.asList("+", "-").contains(sintactico.lex)) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
             opmul();
         }
     }
 
     public void opmul() {
         termino();
-        while (Arrays.asList("*", "/", "%").contains(sintactico.lexico.lex)) {
+        while (Arrays.asList("*", "/", "%").contains(sintactico.lex)) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
             termino();
         }
     }
@@ -75,20 +76,22 @@ public class Expresiones {
     public void termino() {
         if (sintactico.lexico.lex.equals("(")) {
             String[] result = sintactico.lexico.lexico();
-            sintactico.lexico.tok = result[0];
-            sintactico.lexico.lex = result[1];
+            sintactico.tok = result[0];
+            sintactico.lex = result[1];
             expr();
-            if (!sintactico.lexico.lex.equals(")")) {
-                sintactico.lexico.erra("Error de Sintaxis", "Se esperaba \")\" y llego", sintactico.lexico.lex);
+            if (!sintactico.lex.equals(")")) {
+                sintactico.erra("Error de Sintaxis",
+                        "Se esperaba \")\" y llego", sintactico.lex);
             }
-        } else if (Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.lexico.tok)
-                || sintactico.lexico.tok.equals("Ide")) {
+        } else if (Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.tok)
+                || sintactico.tok.equals("Ide")) {
             // Do nothing
         } else {
-            sintactico.lexico.erra("Error de Sintaxis", "Se esperaba un término y llegó", sintactico.lexico.lex);
+            sintactico.lexico.erra("Error de Sintaxis",
+                    "Se esperaba un término y llegó", sintactico.lex);
         }
         String[] result = sintactico.lexico.lexico();
-        sintactico.lexico.tok = result[0];
-        sintactico.lexico.lex = result[1];
+        sintactico.tok = result[0];
+        sintactico.lex = result[1];
     }
 }
