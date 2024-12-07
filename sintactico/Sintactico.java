@@ -1,10 +1,10 @@
 package sintactico;
 
-import handlers.SintacticoComandos;
-import handlers.SintacticoExpresiones;
-import handlers.SintacticoFunciones;
-import handlers.SintacticoImportar;
-import handlers.SintacticoVariables;
+import handlers.Comandos;
+import handlers.Expresiones;
+import handlers.Funciones;
+import handlers.Importar;
+import handlers.Variables;
 import lexico.Lexico;
 
 public class Sintactico {
@@ -13,19 +13,19 @@ public class Sintactico {
     public String lex = "";
     public boolean errB = false;
 
-    public SintacticoImportar importarHandler;
-    public SintacticoVariables variablesHandler;
-    public SintacticoFunciones funcionesHandler;
-    public SintacticoExpresiones expresionesHandler;
-    public SintacticoComandos comandosHandler;
+    public Importar importarHandler;
+    public Variables variablesHandler;
+    public Funciones funcionesHandler;
+    public Expresiones expresionesHandler;
+    public Comandos comandosHandler;
 
     public Sintactico(Lexico lexico) {
         this.lexico = lexico;
-        this.importarHandler = new SintacticoImportar(this);
-        this.variablesHandler = new SintacticoVariables(this);
-        this.funcionesHandler = new SintacticoFunciones(this);
-        this.comandosHandler = new SintacticoComandos(this);
-        this.expresionesHandler = new SintacticoExpresiones(this);
+        this.importarHandler = new Importar(this);
+        this.variablesHandler = new Variables(this);
+        this.funcionesHandler = new Funciones(this);
+        this.comandosHandler = new Comandos(this);
+        this.expresionesHandler = new Expresiones(this);
     }
 
     public void erra(String tipE, String desE, String strE) {

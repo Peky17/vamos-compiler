@@ -2,10 +2,10 @@ package handlers;
 
 import sintactico.Sintactico;
 
-public class SintacticoImportar {
+public class Importar {
     private Sintactico sintactico;
 
-    public SintacticoImportar(Sintactico sintactico) {
+    public Importar(Sintactico sintactico) {
         this.sintactico = sintactico;
     }
 

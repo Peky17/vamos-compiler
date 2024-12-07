@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import sintactico.Sintactico;
 
-public class SintacticoVariables {
+public class Variables {
     private Sintactico sintactico;
 
-    public SintacticoVariables(Sintactico sintactico) {
+    public Variables(Sintactico sintactico) {
         this.sintactico = sintactico;
     }
 

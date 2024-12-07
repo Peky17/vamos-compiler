@@ -3,10 +3,10 @@ package handlers;
 import java.util.Arrays;
 import sintactico.Sintactico;
 
-public class SintacticoFunciones {
+public class Funciones {
     private Sintactico sintactico;
 
-    public SintacticoFunciones(Sintactico sintactico) {
+    public Funciones(Sintactico sintactico) {
         this.sintactico = sintactico;
     }
 
