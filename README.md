@@ -32,6 +32,8 @@
 
     2. "interrumpe" lo reconoce como ide y en realidad es un delimitador en el contexto de la sentencia segun.
 
+    3. Corregir error con comando "predeterminado" en sentencia "segun"
+
     3. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
 
     4. Permitir definir la longitud de un vector con una constante entera.
