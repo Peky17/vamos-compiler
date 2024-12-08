@@ -10,28 +10,26 @@ public class Importar {
         this.sintactico = sintactico;
     }
 
-    public void importar() {
+    private void avanzarToken() {
         Token token = sintactico.lexico.getTokenManager().nextToken();
         sintactico.tok = token.getTok();
         sintactico.lex = token.getLex();
+    }
+
+    public void importar() {
+        avanzarToken();
         if (!sintactico.tok.equals("CtA") && !sintactico.lex.equals("(")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba nombre de libreria o grupo libs y llego", sintactico.lex);
         }
         if (sintactico.lex.equals("(")) {
-            token = sintactico.lexico.getTokenManager().nextToken();
-            sintactico.tok = token.getTok();
-            sintactico.lex = token.getLex();
+            avanzarToken();
             while (sintactico.tok.equals("CtA")) {
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
             }
             if (!sintactico.lex.equals(")")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba \")\" y llego", sintactico.lex);
             }
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
     }
 }
