@@ -28,11 +28,11 @@
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
-    1. Expresiones que permitan parentesis en operaciones aritméticas.
+    1. "interrumpe" lo reconoce como ide y en realidad es un delimitador en el contexto de la sentencia segun.
 
-    2. "interrumpe" lo reconoce como ide y en realidad es un delimitador en el contexto de la sentencia segun.
+    2. Corregir error con comando "predeterminado" en sentencia "segun"
 
-    3. Corregir error con comando "predeterminado" en sentencia "segun"
+    3. Expresiones que permitan parentesis en operaciones aritméticas.
 
     4. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
     

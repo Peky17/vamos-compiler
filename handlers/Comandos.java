@@ -163,7 +163,7 @@ public class Comandos {
     public void segun() {
         avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba identificador y llegó", sintactico.lex);
             return;
         }
         avanzarToken();
@@ -188,11 +188,12 @@ public class Comandos {
                 while (!sintactico.lex.equals("}") && !sintactico.lex.equals("caso")
                         && !sintactico.lex.equals("predeterminado") && !sintactico.lex.equals("interrumpe")) {
                     comando();
-                    avanzarToken();
+                    if (!sintactico.lex.equals("interrumpe")) {
+                        interrumpe();
+                    }
                 }
                 if (sintactico.lex.equals("interrumpe")) {
                     interrumpe();
-                    avanzarToken();
                 }
             } else if (sintactico.lex.equals("predeterminado")) {
                 predeterminado();
@@ -218,7 +219,6 @@ public class Comandos {
         while (!sintactico.lex.equals("}") && !sintactico.lex.equals("caso")
                 && !sintactico.lex.equals("predeterminado")) {
             comando();
-            avanzarToken();
         }
     }
 
