@@ -34,10 +34,12 @@
 
     3. Corregir error con comando "predeterminado" en sentencia "segun"
 
-    3. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
-
-    4. Permitir definir la longitud de un vector con una constante entera.
+    4. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
     
 ## Análisis semántico
 
     1. Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 
+
+    2. Permitir definir la longitud de un vector con una constante entera.
+
+    3. Suma, resta, multiplicación, división
