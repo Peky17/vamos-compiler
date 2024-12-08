@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import sintactico.Sintactico;
 import utils.ErrorManager;
+import utils.Token;
 
 public class Semantico {
     private Sintactico sintactico;
@@ -40,10 +41,16 @@ public class Semantico {
 
         sintactico.lexico.idx = 0;
 
+        // Generar todos los tokens antes de iniciar el análisis sintáctico
+        while (sintactico.lexico.hasNextToken()) {
+            sintactico.lexico.lexico();
+        }
+
         // Inicia el análisis
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        sintactico.lexico.getTokenManager().resetTokenIndex();
+        Token token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Proceso de importaciones y variables
         while (sintactico.lex.equals("importar")) {

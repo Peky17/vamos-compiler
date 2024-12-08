@@ -225,6 +225,10 @@ public class Lexico {
         return result;
     }
 
+    public boolean hasNextToken() {
+        return idx < entrada.length();
+    }
+
     public TokenManager getTokenManager() {
         return tokenManager;
     }

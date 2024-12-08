@@ -13,25 +13,21 @@ public class Comandos {
         this.sintactico = sintactico;
     }
 
+    private void avanzarToken() {
+        Token token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
+    }
+
     public void comando() {
         if (sintactico.lex.equals("fmt")) {
-            String[] result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
-
+            avanzarToken();
             if (!sintactico.lex.equals(".")) {
-                sintactico.erra("Error de Sintaxis",
-                        "Se esperaba '.' y llegó", sintactico.lex);
+                sintactico.erra("Error de Sintaxis", "Se esperaba '.' y llegó", sintactico.lex);
                 return;
             }
-
-            result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
-
-            if (sintactico.lex.equals("Imprime")) {
-                fmtimprime();
-            } else if (sintactico.lex.equals("Imprimenl")) {
+            avanzarToken();
+            if (sintactico.lex.equals("Imprime") || sintactico.lex.equals("Imprimenl")) {
                 fmtimprime();
             } else if (sintactico.lex.equals("Leer")) {
                 fmtleer();
@@ -41,22 +37,19 @@ public class Comandos {
                         sintactico.lex);
             }
         } else if (sintactico.lex.equals("regresa")) {
-            String[] result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
-            // Procesar la expresión de retorno
+            avanzarToken();
             sintactico.expresionesHandler.expr();
         } else if (sintactico.lex.equals("si")) {
-            siSino(); // Procesar el bloque "si"
+            siSino();
         } else if (sintactico.lex.equals("desde")) {
-            desde(); // Procesar el bloque "desde"
+            desde();
         } else if (sintactico.lex.equals("segun")) {
-            segun(); // Procesar el bloque "según"
+            segun();
         } else if (sintactico.lex.equals("interrumpe")) {
-            interrumpe(); // Procesar "interrumpe"
+            interrumpe();
         } else if (sintactico.lex.equals("predeterminado")) {
-            predeterminado(); // Procesar "predeterminado"
-        } else if (sintactico.tok.equals("Ide")) { // Verificar si es una llamada a función
+            predeterminado();
+        } else if (sintactico.tok.equals("Ide")) {
             sintactico.funcionesHandler.llamadaFuncion();
         } else {
             sintactico.erra("Error de Sintaxis", "Comando no reconocido", sintactico.lex);
@@ -70,379 +63,205 @@ public class Comandos {
     }
 
     public void bloque() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         if (!sintactico.lex.equals("}")) {
             estatutos();
         }
     }
 
     public void siSino() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Procesar la condición
+        avanzarToken();
         sintactico.expresionesHandler.expr();
-
-        // Verificar apertura de bloque
         if (!sintactico.lex.equals("{")) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó",
-                    sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
             return;
         }
-
-        // Procesar el bloque de código
         bloque();
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Verificar si hay un "sino"
+        avanzarToken();
         if (sintactico.lex.equals("sino")) {
-            result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
-
-            // Verificar apertura de bloque
+            avanzarToken();
             if (!sintactico.lex.equals("{")) {
-                sintactico.erra("Error de Sintaxis",
-                        "Se esperaba '{' y llegó", sintactico.lex);
+                sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
                 return;
             }
-
-            // Procesar el bloque de código del "sino"
             bloque();
-
-            result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
+            avanzarToken();
         }
     }
 
     public void desde() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Verificar si es la sintaxis simple
+        avanzarToken();
         if (sintactico.lex.equals("{")) {
             desdeSimple();
             return;
         }
-
-        // Inicialización
         if (!sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba un identificador para la inicialización y llegó",
+            sintactico.erra("Error de Sintaxis", "Se esperaba un identificador para la inicialización y llegó",
                     sintactico.lex);
             return;
         }
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         if (!sintactico.lex.equals("=")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '=' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '=' y llegó", sintactico.lex);
             return;
         }
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         if (!sintactico.tok.equals("Ent")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba un valor entero para la inicialización y llegó",
+            sintactico.erra("Error de Sintaxis", "Se esperaba un valor entero para la inicialización y llegó",
                     sintactico.lex);
             return;
         }
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         if (!sintactico.lex.equals(";")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ';' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ';' y llegó", sintactico.lex);
             return;
         }
-
-        // Condición
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         sintactico.expresionesHandler.expr();
         if (!sintactico.lex.equals(";")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ';' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ';' y llegó", sintactico.lex);
             return;
         }
-
-        // Incremento
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba un identificador para el incremento y llegó",
+            sintactico.erra("Error de Sintaxis", "Se esperaba un identificador para el incremento y llegó",
                     sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         if (!sintactico.lex.equals("=")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '=' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '=' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
         sintactico.expresionesHandler.expr();
-
-        // Verificar apertura de bloque
         if (!sintactico.lex.equals("{")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '{' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
             return;
         }
-
-        // Procesar el bloque de código
         bloque();
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
     }
 
     public void desdeSimple() {
-        // Verificar apertura de bloque
         if (!sintactico.lex.equals("{")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '{' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
             return;
         }
-
-        // Procesar el bloque de código
         bloque();
-
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
     }
 
     public void segun() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Verificar que el siguiente token sea un identificador
+        avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba un identificador y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Verificar apertura de bloque
+        avanzarToken();
         if (!sintactico.lex.equals("{")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '{' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Procesar los casos dentro del bloque
+        avanzarToken();
         while (!sintactico.lex.equals("}")) {
             if (sintactico.lex.equals("caso")) {
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
-
-                // Verificar que el caso sea una constante válida
+                avanzarToken();
                 if (!Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.tok)) {
-                    sintactico.erra("Error de Sintaxis",
-                            "Se esperaba una constante válida y llegó",
-                            sintactico.lex);
+                    sintactico.erra("Error de Sintaxis", "Se esperaba una constante válida y llegó", sintactico.lex);
                     return;
                 }
-
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
-
-                // Verificar que el siguiente token sea ':'
+                avanzarToken();
                 if (!sintactico.lex.equals(":")) {
-                    sintactico.erra("Error de Sintaxis",
-                            "Se esperaba ':' y llegó", sintactico.lex);
+                    sintactico.erra("Error de Sintaxis", "Se esperaba ':' y llegó", sintactico.lex);
                     return;
                 }
-
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
-
-                // Procesar los comandos dentro del caso
-                while (!sintactico.lex.equals("}") &&
-                        !sintactico.lex.equals("caso") &&
-                        !sintactico.lex.equals("predeterminado") &&
-                        !sintactico.lex.equals("interrumpe")) {
+                avanzarToken();
+                while (!sintactico.lex.equals("}") && !sintactico.lex.equals("caso")
+                        && !sintactico.lex.equals("predeterminado") && !sintactico.lex.equals("interrumpe")) {
                     comando();
-                    result = sintactico.lexico.lexico();
-                    sintactico.tok = result[0];
-                    sintactico.lex = result[1];
+                    avanzarToken();
                 }
-
-                // Verificar si hay un interrumpe
                 if (sintactico.lex.equals("interrumpe")) {
                     interrumpe();
-                    result = sintactico.lexico.lexico();
-                    sintactico.tok = result[0];
-                    sintactico.lex = result[1];
+                    avanzarToken();
                 }
             } else if (sintactico.lex.equals("predeterminado")) {
                 predeterminado();
             } else {
-                sintactico.erra("Error de Sintaxis",
-                        "Se esperaba 'caso' o 'predeterminado' y llegó",
-                        sintactico.lex);
+                sintactico.erra("Error de Sintaxis", "Se esperaba 'caso' o 'predeterminado' y llegó", sintactico.lex);
                 return;
             }
         }
-
-        // Verificar cierre de bloque
-        if (!sintactico.lexico.lex.equals("}")) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba '}' y llegó", sintactico.lexico.lex);
+        if (!sintactico.lex.equals("}")) {
+            sintactico.erra("Error de Sintaxis", "Se esperaba '}' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.lexico.tok = result[0];
-        sintactico.lexico.lex = result[1];
+        avanzarToken();
     }
 
     public void predeterminado() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Verificar que el siguiente token sea ':'
+        avanzarToken();
         if (!sintactico.lex.equals(":")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ':' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ':' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
-        // Procesar los comandos dentro del caso predeterminado
-        while (!sintactico.lex.equals("}") &&
-                !sintactico.lex.equals("caso") &&
-                !sintactico.lex.equals("predeterminado")) {
+        avanzarToken();
+        while (!sintactico.lex.equals("}") && !sintactico.lex.equals("caso")
+                && !sintactico.lex.equals("predeterminado")) {
             comando();
-            result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
+            avanzarToken();
         }
     }
 
     public void interrumpe() {
-        // Simplemente avanzar al siguiente token
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
     }
 
     public void fmtleer() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
+        avanzarToken();
         if (!sintactico.lex.equals("(")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '(' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '(' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
+        avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba un identificador y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
+        avanzarToken();
         if (sintactico.lex.equals("[")) {
             sintactico.variablesHandler.udim();
-            result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
+            avanzarToken();
         }
-
         if (!sintactico.lex.equals(")")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ')' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ')' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
     }
 
     public void fmtimprime() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
+        avanzarToken();
         if (!sintactico.lex.equals("(")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '(' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '(' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
-
+        avanzarToken();
         String sp = ",";
         while (sp.equals(",")) {
             sp = "";
             sintactico.expresionesHandler.expr();
             sp = sintactico.lex;
-
             if (sp.equals(",")) {
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
+                avanzarToken();
             }
         }
-
         if (!sintactico.lex.equals(")")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ')' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ')' y llegó", sintactico.lex);
             return;
         }
-
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        avanzarToken();
     }
 
     public List<Token> getTokens() {

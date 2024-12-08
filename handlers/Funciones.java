@@ -2,6 +2,7 @@ package handlers;
 
 import java.util.Arrays;
 import sintactico.Sintactico;
+import utils.Token;
 
 public class Funciones {
     private Sintactico sintactico;
@@ -11,33 +12,33 @@ public class Funciones {
     }
 
     public void pars() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        Token token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba identificador y llego", sintactico.lex);
             return;
         }
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
             sintactico.erra("Error de Sintaxis",
                     "Se esperaba tipo de dato y llego", sintactico.lex);
             return;
         }
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
         if (sintactico.lex.equals(",")) {
             sintactico.funcionesHandler.pars();
         }
     }
 
     public void funciones() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        Token token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Verificar nombre de la función (excepto para 'principal')
         if (!sintactico.lex.equals("principal")
@@ -47,9 +48,9 @@ public class Funciones {
             return;
         }
 
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Verificar apertura de paréntesis para los parámetros
         if (!sintactico.lex.equals("(")) {
@@ -58,9 +59,9 @@ public class Funciones {
             return;
         }
 
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Procesar parámetros de la función, si los hay
         if (!sintactico.lex.equals(")")) {
@@ -72,9 +73,9 @@ public class Funciones {
                     return;
                 }
 
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
+                token = sintactico.lexico.getTokenManager().nextToken();
+                sintactico.tok = token.getTok();
+                sintactico.lex = token.getLex();
 
                 // Verificar que el identificador vaya seguido de un tipo
                 if (!Arrays.asList(
@@ -88,9 +89,9 @@ public class Funciones {
                 }
 
                 // Avanzar al siguiente token
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
+                token = sintactico.lexico.getTokenManager().nextToken();
+                sintactico.tok = token.getTok();
+                sintactico.lex = token.getLex();
 
                 // Comprobar si hay más parámetros o cerrar paréntesis
                 if (sintactico.lex.equals(")")) {
@@ -102,9 +103,9 @@ public class Funciones {
                 }
 
                 // Avanzar al siguiente parámetro después de la coma
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
+                token = sintactico.lexico.getTokenManager().nextToken();
+                sintactico.tok = token.getTok();
+                sintactico.lex = token.getLex();
             }
         }
 
@@ -115,9 +116,9 @@ public class Funciones {
             return;
         }
 
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Verificar tipo de retorno opcional
         if (Arrays.asList(
@@ -125,9 +126,9 @@ public class Funciones {
                 "decimal",
                 "entero",
                 "logico").contains(sintactico.lex)) {
-            result = sintactico.lexico.lexico();
-            sintactico.tok = result[0];
-            sintactico.lex = result[1];
+            token = sintactico.lexico.getTokenManager().nextToken();
+            sintactico.tok = token.getTok();
+            sintactico.lex = token.getLex();
         }
 
         // Verificar apertura de bloque de la función
@@ -140,9 +141,9 @@ public class Funciones {
             sintactico.comandosHandler.bloque();
         }
 
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Verificar si hay más funciones
         if (sintactico.lex.equals("funcion")) {
@@ -151,9 +152,9 @@ public class Funciones {
     }
 
     public void llamadaFuncion() {
-        String[] result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        Token token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Verificar apertura de paréntesis
         if (!sintactico.lex.equals("(")) {
@@ -162,9 +163,9 @@ public class Funciones {
             return;
         }
 
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
 
         // Procesar parámetros de la función, si los hay
         if (!sintactico.lex.equals(")")) {
@@ -181,9 +182,9 @@ public class Funciones {
                 }
 
                 // Avanzar al siguiente parámetro después de la coma
-                result = sintactico.lexico.lexico();
-                sintactico.tok = result[0];
-                sintactico.lex = result[1];
+                token = sintactico.lexico.getTokenManager().nextToken();
+                sintactico.tok = token.getTok();
+                sintactico.lex = token.getLex();
             }
         }
 
@@ -194,8 +195,8 @@ public class Funciones {
             return;
         }
 
-        result = sintactico.lexico.lexico();
-        sintactico.tok = result[0];
-        sintactico.lex = result[1];
+        token = sintactico.lexico.getTokenManager().nextToken();
+        sintactico.tok = token.getTok();
+        sintactico.lex = token.getLex();
     }
 }
