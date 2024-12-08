@@ -29,11 +29,29 @@ public class Funciones {
             sintactico.erra("Error de Sintaxis", "Se esperaba identificador y llego", sintactico.lex);
             return;
         }
+        String nomIde = sintactico.lex;
         avanzarToken();
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
             sintactico.erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", sintactico.lex);
             return;
         }
+        String tipo = "";
+        switch (sintactico.lex) {
+            case "alfabetico":
+                tipo = "A";
+                break;
+            case "logico":
+                tipo = "L";
+                break;
+            case "entero":
+                tipo = "E";
+                break;
+            case "decimal":
+                tipo = "D";
+                break;
+        }
+        sintactico.regtabSim(nomIde, new String[] { "P", tipo, "0", "0" }); // Registrar parámetro en la tabla de
+                                                                            // símbolos
         avanzarToken();
         if (sintactico.lex.equals(",")) {
             sintactico.funcionesHandler.pars();
@@ -68,6 +86,7 @@ public class Funciones {
                     return;
                 }
 
+                String nomIde = sintactico.lex;
                 avanzarToken();
 
                 // Verificar que el identificador vaya seguido de un tipo
@@ -75,6 +94,24 @@ public class Funciones {
                     sintactico.erra("Error de Sintaxis", "Se esperaba un tipo de dato y llegó", sintactico.lex);
                     return;
                 }
+
+                String tipo = "";
+                switch (sintactico.lex) {
+                    case "alfabetico":
+                        tipo = "A";
+                        break;
+                    case "logico":
+                        tipo = "L";
+                        break;
+                    case "entero":
+                        tipo = "E";
+                        break;
+                    case "decimal":
+                        tipo = "D";
+                        break;
+                }
+                sintactico.regtabSim(nomIde, new String[] { "P", tipo, "0", "0" }); // Registrar parámetro en la tabla
+                                                                                    // de símbolos
 
                 avanzarToken();
 

@@ -3,6 +3,7 @@ package handlers;
 import java.util.Arrays;
 import sintactico.Sintactico;
 import utils.Token;
+import utils.TipoUtils;
 
 public class Variables {
     private Sintactico sintactico;
@@ -37,6 +38,7 @@ public class Variables {
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba Ide y llego", sintactico.lex);
         }
+        String nomIde = sintactico.lex;
         avanzarToken();
         while (sintactico.lex.equals(",")) {
             avanzarToken();
@@ -52,6 +54,23 @@ public class Variables {
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
             sintactico.erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", sintactico.lex);
         }
+        String tipo = "";
+        switch (sintactico.lex) {
+            case "alfabetico":
+                tipo = "A";
+                break;
+            case "logico":
+                tipo = "L";
+                break;
+            case "entero":
+                tipo = "E";
+                break;
+            case "decimal":
+                tipo = "D";
+                break;
+        }
+        sintactico.regtabSim(nomIde, new String[] { "V", tipo, "0", "0" }); // Registrar variable en la tabla de
+                                                                            // símbolos
         avanzarToken();
         if (sintactico.lex.equals("=")) {
             avanzarToken();
@@ -60,6 +79,29 @@ public class Variables {
             else {
                 if (!Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.tok)) {
                     sintactico.erra("Error de Sintaxis", "Se esperaba CtA, CtL, Ent o Dec y llego", sintactico.lex);
+                } else {
+                    // Validar tipo de la constante asignada
+                    String tipoConstante = "";
+                    switch (sintactico.tok) {
+                        case "CtA":
+                            tipoConstante = "A";
+                            break;
+                        case "CtL":
+                            tipoConstante = "L";
+                            break;
+                        case "Dec":
+                            tipoConstante = "D";
+                            break;
+                        case "Ent":
+                            tipoConstante = "E";
+                            break;
+                    }
+
+                    String key = tipo + "=" + tipoConstante;
+                    if (!TipoUtils.tiposTab.containsKey(key)) {
+                        sintactico.erra("Error de Semantica", "Tipo de constante no coincide con tipo de variable",
+                                key);
+                    }
                 }
                 avanzarToken();
             }

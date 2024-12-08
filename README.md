@@ -24,22 +24,45 @@
     7. Definición de sentencia iterativa "desde" con [inicialización de iterador]; [condición]; [actualización de iterador] { bloque }   
     8. Definición de sentencia iterativa "desde" únicamente con bloque: desde { bloque }
     9. Llamada entre funciones sin validación semántica.
-    10. Sentencia de control según 
+    10. Sentencia de control según: [caso, predeterminado] 
+
+## Funcionalidades implmentadas (Análisis Semántico)
+
+    * HashMap para el mapa de tipos para validaciones semanticas.
+    * HashMap para la tabla de simbolos para validaciones semanticas.
 
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
-    1. "interrumpe" lo reconoce como ide y en realidad es un delimitador en el contexto de la sentencia segun.
-
-    2. Corregir error con comando "predeterminado" en sentencia "segun"
-
-    3. Expresiones que permitan parentesis en operaciones aritméticas.
-
-    4. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
+    1. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
     
-## Análisis semántico
+## Funcionalidades que faltan implementar (Análisis semántico)
 
-    1. Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 
+    0) asignación, Suma, resta, multiplicación, división
 
-    2. Permitir definir la longitud de un vector con una constante entera.
+    1) En declaracion de dimension de una varible dimensionada, “Validar si usa un Ide en Dimension se haya declarado constante”
 
-    3. Suma, resta, multiplicación, división
+    2) En declaracion de dimension de una varible dimensionada, “Validar si usa un Ide en Dimension tipo entero”
+
+    3) Cuando inicialice variables o constantes, “Validar tipo
+        corresponda con el declarado”
+
+    4) Cuando se declare función, “Validar que no exista según
+        nombre y firma (orden y tipo de parámetro)”
+
+    5) En regresa de Funcion tiene expresión: “Validad que
+        funcion tien tipo de retorno o que no tiene”
+
+    6) En regresa “Validar tipo de retorno con el de función”
+
+    7) En asignación “Validar el tipo”, que tipo de Ide asignado
+    sea compatible al de la expresión
+
+    8) Cuando se inicializa valor a una VARIABLE lineal
+        “Validar que NO este dimensionada
+
+    9) Cuando se inicializa como grupo de constantes “Validar
+        que este dimensionada”
+
+    10) Si existe interrumpe “validar que se este en un ciclo”
+
+    11) Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 
