@@ -1,8 +1,10 @@
 package handlers;
 
 import java.util.Arrays;
+import java.util.List;
 
 import sintactico.Sintactico;
+import utils.Token;
 
 public class Comandos {
     private Sintactico sintactico;
@@ -443,4 +445,14 @@ public class Comandos {
         sintactico.lex = result[1];
     }
 
+    public List<Token> getTokens() {
+        return sintactico.lexico.getTokenManager().getTokens();
+    }
+
+    public void imprimirTokens() {
+        List<Token> tokens = getTokens();
+        for (Token token : tokens) {
+            System.out.println("ID: " + token.getId() + " Token: " + token.getTok() + ", Lexema: " + token.getLex());
+        }
+    }
 }

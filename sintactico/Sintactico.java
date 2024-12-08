@@ -9,15 +9,15 @@ import lexico.Lexico;
 import utils.ErrorManager;
 
 public class Sintactico {
-    public Lexico lexico;
-    public String tok = "";
-    public String lex = "";
-
     public Importar importarHandler;
     public Variables variablesHandler;
     public Funciones funcionesHandler;
     public Expresiones expresionesHandler;
     public Comandos comandosHandler;
+    public Lexico lexico;
+    // Variables para almacenar el token y lexema actual
+    public String tok = "";
+    public String lex = "";
 
     public Sintactico(Lexico lexico) {
         this.lexico = lexico;

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import utils.ErrorManager;
+import utils.TokenManager;
 
 public class Lexico {
     private final int ERR = -1;
@@ -42,6 +43,8 @@ public class Lexico {
             { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP }, // 17 Estado para operadores lógicos
             { ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP, ACP } // 18 Estado para delimitadores ":"
     };
+
+    private TokenManager tokenManager = new TokenManager();
 
     public void erra(String tipE, String desE, String strE) {
         ErrorManager.getInstance().reportError(tipE, desE, strE);
@@ -215,6 +218,14 @@ public class Lexico {
         while (result[0].equals("Com")) {
             result = scanner();
         }
+        // Almacenar tokens y lexemas si no hay error léxico
+        if (!result[0].equals("Err")) {
+            tokenManager.addToken(result[0], result[1]);
+        }
         return result;
+    }
+
+    public TokenManager getTokenManager() {
+        return tokenManager;
     }
 }

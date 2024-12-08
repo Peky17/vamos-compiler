@@ -65,6 +65,9 @@ public class Semantico {
             System.out.println("\n" + archE + " Error en la compilación.");
         }
 
+        // Muestra los tokens generados al compilar
+        sintactico.comandosHandler.imprimirTokens();
+
         scanner.close();
     }
 }
