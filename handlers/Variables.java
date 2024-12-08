@@ -11,47 +11,39 @@ public class Variables {
         this.sintactico = sintactico;
     }
 
-    public void dimen() {
+    private void avanzarToken() {
         Token token = sintactico.lexico.getTokenManager().nextToken();
         sintactico.tok = token.getTok();
         sintactico.lex = token.getLex();
+    }
+
+    public void dimen() {
+        avanzarToken();
         if (!sintactico.tok.equals("Ent")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba constante entera y llego", sintactico.lex);
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         if (!sintactico.lex.equals("]")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba ] y llego", sintactico.lex);
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
     }
 
     public void gpoctes() {
     }
 
     public void varsconsts() {
-        Token token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba Ide y llego", sintactico.lex);
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         while (sintactico.lex.equals(",")) {
-            token = sintactico.lexico.getTokenManager().nextToken();
-            sintactico.tok = token.getTok();
-            sintactico.lex = token.getLex();
+            avanzarToken();
             if (!sintactico.tok.equals("Ide")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba Ide y llego", sintactico.lex);
             }
-            token = sintactico.lexico.getTokenManager().nextToken();
-            sintactico.tok = token.getTok();
-            sintactico.lex = token.getLex();
+            avanzarToken();
         }
         if (sintactico.lex.equals("[")) {
             sintactico.variablesHandler.arreglo();
@@ -60,22 +52,16 @@ public class Variables {
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
             sintactico.erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", sintactico.lex);
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         if (sintactico.lex.equals("=")) {
-            token = sintactico.lexico.getTokenManager().nextToken();
-            sintactico.tok = token.getTok();
-            sintactico.lex = token.getLex();
+            avanzarToken();
             if (sintactico.lex.equals("{"))
                 sintactico.variablesHandler.gpoctes();
             else {
                 if (!Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.tok)) {
                     sintactico.erra("Error de Sintaxis", "Se esperaba CtA, CtL, Ent o Dec y llego", sintactico.lex);
                 }
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
             }
         }
         if (sintactico.lex.equals(",")) {
@@ -87,51 +73,32 @@ public class Variables {
     }
 
     public void arreglo() {
-        // Verificar que el siguiente token sea un número entero
-        Token token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         if (!sintactico.tok.equals("Ent")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba un número entero y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
-
-        // Verificar que el siguiente token sea ']'
+        avanzarToken();
         if (!sintactico.lex.equals("]")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
-
-        // Verificar que el siguiente token sea un tipo de dato
+        avanzarToken();
         String tipoDato = sintactico.lex;
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(tipoDato)) {
             sintactico.erra("Error de Sintaxis", "Se esperaba un tipo de dato y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
-
-        // Verificar que el siguiente token sea '{'
+        avanzarToken();
         if (!sintactico.lex.equals("{")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
-
-        // Verificar que los elementos dentro de '{}' sean del tipo de dato declarado
+        avanzarToken();
         while (!sintactico.lex.equals("}")) {
             boolean tipoValido = false;
             switch (tipoDato) {
@@ -155,22 +122,15 @@ public class Variables {
                 return;
             }
 
-            token = sintactico.lexico.getTokenManager().nextToken();
-            sintactico.tok = token.getTok();
-            sintactico.lex = token.getLex();
-
+            avanzarToken();
             if (sintactico.lex.equals(",")) {
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
             } else if (!sintactico.lex.equals("}")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba ',' o '}' y llegó", sintactico.lex);
                 return;
             }
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
     }
 }
