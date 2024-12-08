@@ -11,139 +11,108 @@ public class Funciones {
         this.sintactico = sintactico;
     }
 
-    public void pars() {
+    private void avanzarToken() {
         Token token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        if (token != null && token.getTok() != null && token.getLex() != null) {
+            sintactico.tok = token.getTok();
+            sintactico.lex = token.getLex();
+        } else {
+            // Obtener la posición y el ID del token nulo
+            int id = token != null ? token.getId() : -1;
+            sintactico.erra("Error de Sintaxis", "Token o lexema nulo", "ID: " + id);
+        }
+    }
+
+    public void pars() {
+        avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba identificador y llego", sintactico.lex);
             return;
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba tipo de dato y llego", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", sintactico.lex);
             return;
         }
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
         if (sintactico.lex.equals(",")) {
             sintactico.funcionesHandler.pars();
         }
     }
 
     public void funciones() {
-        Token token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Verificar nombre de la función (excepto para 'principal')
-        if (!sintactico.lex.equals("principal")
-                && !sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba nombre de función y llegó", sintactico.lex);
+        if (!sintactico.lex.equals("principal") && !sintactico.tok.equals("Ide")) {
+            sintactico.erra("Error de Sintaxis", "Se esperaba nombre de función y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Verificar apertura de paréntesis para los parámetros
         if (!sintactico.lex.equals("(")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '(' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '(' y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Procesar parámetros de la función, si los hay
         if (!sintactico.lex.equals(")")) {
             while (true) {
                 // Verificar que el parámetro tenga un identificador
                 if (!sintactico.tok.equals("Ide")) {
-                    sintactico.erra("Error de Sintaxis",
-                            "Se esperaba identificador y llegó", sintactico.lex);
+                    sintactico.erra("Error de Sintaxis", "Se esperaba identificador y llegó", sintactico.lex);
                     return;
                 }
 
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
 
                 // Verificar que el identificador vaya seguido de un tipo
-                if (!Arrays.asList(
-                        "alfabetico",
-                        "decimal",
-                        "entero",
-                        "logico").contains(sintactico.lex)) {
-                    sintactico.erra("Error de Sintaxis",
-                            "Se esperaba un tipo de dato y llegó", sintactico.lex);
+                if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
+                    sintactico.erra("Error de Sintaxis", "Se esperaba un tipo de dato y llegó", sintactico.lex);
                     return;
                 }
 
-                // Avanzar al siguiente token
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
 
                 // Comprobar si hay más parámetros o cerrar paréntesis
                 if (sintactico.lex.equals(")")) {
                     break; // Fin de la lista de parámetros
                 } else if (!sintactico.lex.equals(",")) {
-                    sintactico.erra("Error de Sintaxis",
-                            "Se esperaba ',' o ')' y llegó", sintactico.lex);
+                    sintactico.erra("Error de Sintaxis", "Se esperaba ',' o ')' y llegó", sintactico.lex);
                     return;
                 }
 
-                // Avanzar al siguiente parámetro después de la coma
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
             }
         }
 
         // Verificar cierre de paréntesis de parámetros
         if (!sintactico.lex.equals(")")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ')' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ')' y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Verificar tipo de retorno opcional
-        if (Arrays.asList(
-                "alfabetico",
-                "decimal",
-                "entero",
-                "logico").contains(sintactico.lex)) {
-            token = sintactico.lexico.getTokenManager().nextToken();
-            sintactico.tok = token.getTok();
-            sintactico.lex = token.getLex();
+        if (Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
+            avanzarToken();
         }
 
         // Verificar apertura de bloque de la función
         if (!sintactico.lex.equals("{")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '{' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '{' y llegó", sintactico.lex);
             return;
         } else {
             // Llamada para procesar el bloque de la función
             sintactico.comandosHandler.bloque();
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Verificar si hay más funciones
         if (sintactico.lex.equals("funcion")) {
@@ -152,20 +121,15 @@ public class Funciones {
     }
 
     public void llamadaFuncion() {
-        Token token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Verificar apertura de paréntesis
         if (!sintactico.lex.equals("(")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba '(' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba '(' y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
 
         // Procesar parámetros de la función, si los hay
         if (!sintactico.lex.equals(")")) {
@@ -176,27 +140,20 @@ public class Funciones {
                 if (sintactico.lex.equals(")")) {
                     break; // Fin de la lista de parámetros
                 } else if (!sintactico.lex.equals(",")) {
-                    sintactico.erra("Error de Sintaxis",
-                            "Se esperaba ',' o ')' y llegó", sintactico.lex);
+                    sintactico.erra("Error de Sintaxis", "Se esperaba ',' o ')' y llegó", sintactico.lex);
                     return;
                 }
 
-                // Avanzar al siguiente parámetro después de la coma
-                token = sintactico.lexico.getTokenManager().nextToken();
-                sintactico.tok = token.getTok();
-                sintactico.lex = token.getLex();
+                avanzarToken();
             }
         }
 
         // Verificar cierre de paréntesis
         if (!sintactico.lex.equals(")")) {
-            sintactico.erra("Error de Sintaxis",
-                    "Se esperaba ')' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis", "Se esperaba ')' y llegó", sintactico.lex);
             return;
         }
 
-        token = sintactico.lexico.getTokenManager().nextToken();
-        sintactico.tok = token.getTok();
-        sintactico.lex = token.getLex();
+        avanzarToken();
     }
 }

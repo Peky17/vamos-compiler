@@ -25,7 +25,7 @@ public class TokenManager {
             currentTokenIndex++;
             return tokens.get(currentTokenIndex);
         }
-        return null;
+        return new Token(-1, null, null); // Retorna un token inválido en lugar de null
     }
 
     public Token previousToken() {
@@ -33,7 +33,7 @@ public class TokenManager {
             currentTokenIndex--;
             return tokens.get(currentTokenIndex);
         }
-        return null;
+        return new Token(-1, null, null); // Retorna un token inválido en lugar de null
     }
 
     public void resetTokenIndex() {

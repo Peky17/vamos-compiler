@@ -15,6 +15,62 @@ funcion principal() {
   sumaNumeros(num)
 }
 
+// Funcion de ejemplo con parametros y tipo de dato
+funcion sumaNumeros(n entero) entero {
+  regresa n
+}
+
+// Funcion para probar la sentencia de control si
+funcion validarSi(dato entero){
+  si dato == 1 {
+    fmt.Imprimenl("El dato es uno")
+  } sino {
+    fmt.Imprimenl("El dato no es uno")
+  }
+
+  si dato != 1 {
+    fmt.Imprimenl("El dato no es uno")
+  }
+
+  si dato >= 1 {
+    fmt.Imprimenl("El dato es mayor o igual a uno")
+  }
+
+  si dato >= 1 && dato < 50 {
+    fmt.Imprimenl("El dato es mayor o igual a uno y es menor a 50")
+  }
+
+  si dato >= 1 || dato < 50 {
+    fmt.Imprimenl("El dato es mayor o igual a uno o es menor a 50")
+  }
+}
+
+funcion testDesdeSimple(){
+  // probar desde con sintaxis simple
+  desde {
+    fmt.Imprimenl("Imprimiedo en bucle")
+  }
+}
+
+funcion testDesdeCompleto(n entero, n2 entero){
+  // Probar desde con sintaxis completa
+  desde i = 0; i < MAX; i = i + 1 { 
+    fmt.Imprimenl(i)
+  }
+}
+
+funcion testSegun(){
+  // probar con tipo entero
+  segun num {
+    caso 1:
+      fmt.Imprimenl("El numero es 1")
+    interrumpe
+    caso 2:
+      fmt.Imprimenl("El numero es 2")
+    interrumpe
+  }
+}
+
 funcion algo (){
   fmt.Imprimenl("holaa")
 }

@@ -19,6 +19,14 @@ public class Comandos {
         sintactico.lex = token.getLex();
     }
 
+    private void retrocederToken() {
+        Token token = sintactico.lexico.getTokenManager().previousToken();
+        if (token != null) {
+            sintactico.tok = token.getTok();
+            sintactico.lex = token.getLex();
+        }
+    }
+
     public void comando() {
         if (sintactico.lex.equals("fmt")) {
             avanzarToken();
