@@ -37,6 +37,8 @@
     2. Validación para que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función
     3. Se agregó asignación como comando "=", permitiendo operaciones aritmeticas o asignacion simple con sus respectivas validaciones semánticas de tipo.
     4. Validar que no existan funciones con la misma firma (se permite sobrecarga)
+    5. Validar si existe la función principal (debe estar definida)
+    6. Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
@@ -54,5 +56,3 @@
         que este "dimensionada"
 
     10) Si existe interrumpe “validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"
-
-    11) Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 

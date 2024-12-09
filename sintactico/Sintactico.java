@@ -48,4 +48,11 @@ public class Sintactico {
         }
         return tabSim.get(key);
     }
+
+    public void analizarFuncionesDeclaradas() {
+        // Iniciar el análisis sintáctico y semántico de las funciones
+        funcionesHandler.funciones();
+        // Verificar si la función principal está declarada
+        funcionesHandler.verificarPrincipalDeclarada();
+    }
 }

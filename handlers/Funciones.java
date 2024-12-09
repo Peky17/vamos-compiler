@@ -10,6 +10,7 @@ public class Funciones {
     private Sintactico sintactico;
     private String tipoRetornoActual = "";
     private Map<String, String> funcionesRegistradas = new HashMap<>();
+    private boolean principalDeclarada = false;
 
     public Funciones(Sintactico sintactico) {
         this.sintactico = sintactico;
@@ -37,6 +38,9 @@ public class Funciones {
         }
 
         String nombreFuncion = sintactico.lex;
+        if (nombreFuncion.equals("principal")) {
+            principalDeclarada = true;
+        }
         avanzarToken();
 
         // Verificar apertura de paréntesis para los parámetros
@@ -119,6 +123,10 @@ public class Funciones {
 
         // Verificar tipo de retorno opcional
         if (Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
+            if (nombreFuncion.equals("principal")) {
+                sintactico.erra("Error de Semantica", "La función 'principal' no debe tener tipo de retorno", "");
+                return;
+            }
             switch (sintactico.lex) {
                 case "alfabetico":
                     tipoRetornoActual = "A";
@@ -199,5 +207,11 @@ public class Funciones {
 
     public String getTipoRetornoActual() {
         return tipoRetornoActual;
+    }
+
+    public void verificarPrincipalDeclarada() {
+        if (!principalDeclarada) {
+            sintactico.erra("Error de Semantica", "La función 'principal' no está declarada", "");
+        }
     }
 }

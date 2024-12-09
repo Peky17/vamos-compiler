@@ -62,7 +62,8 @@ public class Semantico {
         }
 
         // Análisis de funciones y validación de errores
-        sintactico.funcionesHandler.funciones();
+        sintactico.analizarFuncionesDeclaradas();
+
         boolean errEstatus = ErrorManager.getInstance().hasError();
 
         // Verifica y muestra el mensaje de compilación
