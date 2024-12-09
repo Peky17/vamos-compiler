@@ -127,6 +127,13 @@ public class Expresiones {
         }
     }
 
+    public String getTipoExpresionActual() {
+        if (pTipos.isEmpty()) {
+            return "";
+        }
+        return pTipos.peek();
+    }
+
     private void nextToken() {
         Token token = sintactico.lexico.getTokenManager().nextToken();
         sintactico.tok = token.getTok();

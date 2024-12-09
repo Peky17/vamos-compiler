@@ -4,10 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import sintactico.Sintactico;
+import utils.TipoUtils;
 import utils.Token;
 
 public class Comandos {
     private Sintactico sintactico;
+
+    private boolean regresaPresente = false;
 
     public Comandos(Sintactico sintactico) {
         this.sintactico = sintactico;
@@ -45,8 +48,17 @@ public class Comandos {
                         sintactico.lex);
             }
         } else if (sintactico.lex.equals("regresa")) {
+            regresaPresente = true;
             avanzarToken();
+            String tipoRetorno = sintactico.funcionesHandler.getTipoRetornoActual();
             sintactico.expresionesHandler.expr();
+            if (!tipoRetorno.isEmpty()) {
+                String tipoExpresion = sintactico.expresionesHandler.getTipoExpresionActual();
+                String key = tipoRetorno + "=" + tipoExpresion;
+                if (!TipoUtils.tiposTab.containsKey(key)) {
+                    sintactico.erra("Error de Semantica", "Tipo de retorno no coincide con tipo de la función", key);
+                }
+            }
         } else if (sintactico.lex.equals("si")) {
             siSino();
         } else if (sintactico.lex.equals("desde")) {
@@ -270,6 +282,10 @@ public class Comandos {
             return;
         }
         avanzarToken();
+    }
+
+    public boolean isRegresaPresente() {
+        return regresaPresente;
     }
 
     public List<Token> getTokens() {

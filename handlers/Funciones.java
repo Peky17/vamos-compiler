@@ -6,6 +6,7 @@ import utils.Token;
 
 public class Funciones {
     private Sintactico sintactico;
+    private String tipoRetornoActual = "";
 
     public Funciones(Sintactico sintactico) {
         this.sintactico = sintactico;
@@ -50,8 +51,8 @@ public class Funciones {
                 tipo = "D";
                 break;
         }
-        sintactico.regtabSim(nomIde, new String[] { "P", tipo, "0", "0" }); // Registrar parámetro en la tabla de
-                                                                            // símbolos
+        // Registrar parámetro en la tabla de símbolos
+        sintactico.regtabSim(nomIde, new String[] { "P", tipo, "0", "0" });
         avanzarToken();
         if (sintactico.lex.equals(",")) {
             sintactico.funcionesHandler.pars();
@@ -137,7 +138,23 @@ public class Funciones {
 
         // Verificar tipo de retorno opcional
         if (Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
+            switch (sintactico.lex) {
+                case "alfabetico":
+                    tipoRetornoActual = "A";
+                    break;
+                case "logico":
+                    tipoRetornoActual = "L";
+                    break;
+                case "entero":
+                    tipoRetornoActual = "E";
+                    break;
+                case "decimal":
+                    tipoRetornoActual = "D";
+                    break;
+            }
             avanzarToken();
+        } else {
+            tipoRetornoActual = "";
         }
 
         // Verificar apertura de bloque de la función
@@ -147,6 +164,11 @@ public class Funciones {
         } else {
             // Llamada para procesar el bloque de la función
             sintactico.comandosHandler.bloque();
+        }
+
+        // Verificar si el comando "regresa" está presente en el bloque de la función
+        if (!tipoRetornoActual.isEmpty() && !sintactico.comandosHandler.isRegresaPresente()) {
+            sintactico.erra("Error de Semantica", "La función debe tener un comando 'regresa'", "");
         }
 
         avanzarToken();
@@ -192,5 +214,9 @@ public class Funciones {
         }
 
         avanzarToken();
+    }
+
+    public String getTipoRetornoActual() {
+        return tipoRetornoActual;
     }
 }

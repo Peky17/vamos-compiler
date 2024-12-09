@@ -31,11 +31,14 @@
     * HashMap para el mapa de tipos para validaciones semanticas.
     * HashMap para la tabla de simbolos para validaciones semanticas.
 
+    1. Validación de que se usa el comando "regresa" en funciones con tipo establecido.
+    2. Validación de que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función 
+
 ## Funcionalidades que faltan implementar (Análisis Sintáctico)
 
     1. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
     
-## Funcionalidades que faltan implementar (Análisis semántico)
+## Funcionalidades que faltan implementar (Análisis Semántico)
 
     0) asignación, Suma, resta, multiplicación, división
 
@@ -60,8 +63,8 @@
     8) Cuando se inicializa valor a una VARIABLE lineal
         “Validar que NO este dimensionada
 
-    9) Cuando se inicializa como grupo de constantes “Validar
-        que este dimensionada”
+    9) Cuando se inicializa como grupo de constantes Validar
+        que este "dimensionada"
 
     10) Si existe interrumpe “validar que se este en un ciclo”
 
