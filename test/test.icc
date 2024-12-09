@@ -8,13 +8,6 @@ constante MAX entero=10
 variable i, j entero
 variable nom alfabetico="Juan"
 
-// Funcion principal
-funcion principal() {
-  fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
-  // Llamar funcion
-  sumaNumeros(num)
-}
-
 // Funcion de ejemplo con parametros y tipo de dato
 funcion sumaNumeros(n entero) entero {
   regresa n
@@ -83,4 +76,11 @@ funcion testSegun(){
 funcion opNumeros(n entero) entero {
   num = n + 5
   regresa [5+(5*2)]
+}
+
+// Funcion principal
+funcion principal() {
+  fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
+  // Llamar funcion
+  sumaNumeros(num)
 }

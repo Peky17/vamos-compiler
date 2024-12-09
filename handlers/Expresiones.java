@@ -15,12 +15,13 @@ public class Expresiones {
         this.pTipos = new Stack<>();
     }
 
-    public void expr() {
+    public String expr() {
         opy();
         while (sintactico.lex.equals("o") || sintactico.lex.equals("||")) {
             nextToken();
             opy();
         }
+        return getTipoExpresionActual();
     }
 
     public void opy() {

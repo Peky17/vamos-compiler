@@ -169,6 +169,7 @@ public class Funciones {
     }
 
     public void llamadaFuncion() {
+        String nombreFuncion = sintactico.lex;
         avanzarToken();
 
         // Verificar apertura de paréntesis
@@ -179,11 +180,14 @@ public class Funciones {
 
         avanzarToken();
 
-        // Procesar parámetros de la función, si los hay
+        // Construir la firma de la llamada a la función
+        StringBuilder firmaLlamada = new StringBuilder(nombreFuncion + "(");
         if (!sintactico.lex.equals(")")) {
             while (true) {
-                // Procesar cada parámetro como una expresión
-                sintactico.expresionesHandler.expr();
+                // Procesar cada parámetro como una expresión y obtener su tipo
+                String tipoParametro = sintactico.expresionesHandler.expr();
+                firmaLlamada.append(tipoParametro);
+
                 // Comprobar si hay más parámetros o cerrar paréntesis
                 if (sintactico.lex.equals(")")) {
                     break; // Fin de la lista de parámetros
@@ -192,13 +196,22 @@ public class Funciones {
                     return;
                 }
 
+                firmaLlamada.append(",");
                 avanzarToken();
             }
         }
+        firmaLlamada.append(")");
 
         // Verificar cierre de paréntesis
         if (!sintactico.lex.equals(")")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba ')' y llegó", sintactico.lex);
+            return;
+        }
+
+        // Validar la firma de la llamada con las funciones registradas
+        if (!funcionesRegistradas.containsKey(firmaLlamada.toString())) {
+            sintactico.erra("Error de Semantica", "Firma de función no coincide con ninguna función declarada",
+                    firmaLlamada.toString());
             return;
         }
 
