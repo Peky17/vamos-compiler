@@ -39,6 +39,9 @@
     4. Validar que no existan funciones con la misma firma (se permite sobrecarga)
     5. Validar si existe la función principal (debe estar definida)
     6. Validar si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función previamente definida. 
+    7. Agregar las variables separadas por coma (,) a la tabla de símbolos para validación semantica.
+    8. Cuando inicialice variables o constantes, “Validar que el tipo de dato corresponda con   el declarado”
+    9. Cuando se inicializa valor a una VARIABLE lineal Validar que NO este dimensionada
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
@@ -46,13 +49,7 @@
 
     2) En declaracion de dimension de una varible dimensionada, “Validar si usa un Ide en Dimension tipo entero”
 
-    3) Cuando inicialice variables o constantes, “Validar tipo
-        corresponda con el declarado”
-
-    8) Cuando se inicializa valor a una VARIABLE lineal
-        “Validar que NO este dimensionada
-
     9) Cuando se inicializa como grupo de constantes Validar
-        que este "dimensionada"
+        que este "dimensionada" (que tenga un valor constante asignado)
 
     10) Si existe interrumpe “validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"

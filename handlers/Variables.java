@@ -38,13 +38,14 @@ public class Variables {
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba Ide y llego", sintactico.lex);
         }
-        String nomIde = sintactico.lex;
+        StringBuilder nomIdes = new StringBuilder(sintactico.lex);
         avanzarToken();
         while (sintactico.lex.equals(",")) {
             avanzarToken();
             if (!sintactico.tok.equals("Ide")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba Ide y llego", sintactico.lex);
             }
+            nomIdes.append(",").append(sintactico.lex);
             avanzarToken();
         }
         if (sintactico.lex.equals("[")) {
@@ -69,8 +70,11 @@ public class Variables {
                 tipo = "D";
                 break;
         }
-        sintactico.regtabSim(nomIde, new String[] { "V", tipo, "0", "0" }); // Registrar variable en la tabla de
-                                                                            // símbolos
+        // Registrar todas las variables en la tabla de símbolos
+        String[] variables = nomIdes.toString().split(",");
+        for (String variable : variables) {
+            sintactico.regtabSim(variable.trim(), new String[] { "V", tipo, "0", "0" });
+        }
         avanzarToken();
         if (sintactico.lex.equals("=")) {
             avanzarToken();
