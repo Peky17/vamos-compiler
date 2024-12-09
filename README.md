@@ -49,9 +49,6 @@
     4) Cuando se declare función, “Validar que no exista según
         nombre y firma (orden y tipo de parámetro)”
 
-    7) En asignación “Validar el tipo”, que tipo de Ide asignado
-    sea compatible al de la expresión
-
     8) Cuando se inicializa valor a una VARIABLE lineal
         “Validar que NO este dimensionada
 
