@@ -67,12 +67,15 @@ public class Expresiones {
     }
 
     public void termino() {
-        if (sintactico.lex.equals("(")) {
+        if (sintactico.lex.equals("(") || sintactico.lex.equals("[")) {
+            String openingBracket = sintactico.lex;
+            String closingBracket = openingBracket.equals("(") ? ")" : "]";
             nextToken();
             expr();
-            if (!sintactico.lex.equals(")")) {
-                sintactico.erra("Error de Sintaxis", "Se esperaba \")\" y llegó", sintactico.lex);
+            if (!sintactico.lex.equals(closingBracket)) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba \"" + closingBracket + "\" y llegó", sintactico.lex);
             }
+            nextToken();
         } else if (Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.tok)) {
             // Añadir el tipo correspondiente a la pila de tipos
             switch (sintactico.tok) {

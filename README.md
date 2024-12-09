@@ -25,6 +25,7 @@
     8. Definición de sentencia iterativa "desde" únicamente con bloque: desde { bloque }
     9. Llamada entre funciones sin validación semántica.
     10. Sentencia de control según: [caso, predeterminado] 
+    11. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis y corchetes en operaciones aritméticas.
 
 ## Funcionalidades implmentadas (Análisis Semántico)
 
@@ -32,11 +33,7 @@
     * HashMap para la tabla de simbolos para validaciones semanticas.
 
     1. Validación de que se usa el comando "regresa" en funciones con tipo establecido.
-    2. Validación de que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función 
-
-## Funcionalidades que faltan implementar (Análisis Sintáctico)
-
-    1. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis en operaciones aritméticas.
+    2. Validación de que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
@@ -52,11 +49,6 @@
     4) Cuando se declare función, “Validar que no exista según
         nombre y firma (orden y tipo de parámetro)”
 
-    5) En regresa de Funcion tiene expresión: “Validad que
-        funcion tien tipo de retorno o que no tiene”
-
-    6) En regresa “Validar tipo de retorno con el de función”
-
     7) En asignación “Validar el tipo”, que tipo de Ide asignado
     sea compatible al de la expresión
 
@@ -66,6 +58,6 @@
     9) Cuando se inicializa como grupo de constantes Validar
         que este "dimensionada"
 
-    10) Si existe interrumpe “validar que se este en un ciclo”
+    10) Si existe interrumpe “validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"
 
     11) Validar que si una funcion tiene parametros, al llamarla desde otra función que se le pase la firma esperada (tipo de datos iguales) y que el orden coincida con otra función ya definida. 
