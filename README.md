@@ -26,18 +26,18 @@
     9. Llamada entre funciones sin validación semántica.
     10. Sentencia de control según: [caso, predeterminado] 
     11. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis y corchetes en operaciones aritméticas.
+    12. Mensaje de error cuando un identificador no es un comando, ni variable definida o algo en específico.
 
 ## Funcionalidades implmentadas (Análisis Semántico)
 
     * HashMap para el mapa de tipos para validaciones semanticas.
     * HashMap para la tabla de simbolos para validaciones semanticas.
 
-    1. Validación de que se usa el comando "regresa" en funciones con tipo establecido.
-    2. Validación de que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función
+    1. Validación par que se usa el comando "regresa" en funciones con tipo establecido.
+    2. Validación para que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función
+    3. Se agregó asignación como comando "=", permitiendo operaciones aritmeticas o asignacion simple con sus respectivas validaciones semánticas de tipo.
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
-
-    0) asignación, Suma, resta, multiplicación, división
 
     1) En declaracion de dimension de una varible dimensionada, “Validar si usa un Ide en Dimension se haya declarado constante”
 

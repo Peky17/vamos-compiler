@@ -70,7 +70,20 @@ public class Comandos {
         } else if (sintactico.lex.equals("predeterminado")) {
             predeterminado();
         } else if (sintactico.tok.equals("Ide")) {
-            sintactico.funcionesHandler.llamadaFuncion();
+            String varName = sintactico.lex;
+            avanzarToken();
+            // Verificar si es una llamada a función o una asignación
+            if (sintactico.lex.equals("(")) {
+                retrocederToken();
+                sintactico.funcionesHandler.llamadaFuncion();
+            } else if (sintactico.lex.equals("=")) {
+                // Asignación de variable
+                asignacion(varName);
+            } else {
+                retrocederToken();
+                sintactico.erra("Error de Sintaxis",
+                        "Se esperaba asignación '=' o llamada de función '('", sintactico.lex);
+            }
         } else {
             sintactico.erra("Error de Sintaxis", "Comando no reconocido", sintactico.lex);
         }
@@ -282,6 +295,20 @@ public class Comandos {
             return;
         }
         avanzarToken();
+    }
+
+    private void asignacion(String varName) {
+        avanzarToken();
+        sintactico.expresionesHandler.expr();
+        String tipoVariable = sintactico.leetabSim(varName)[1];
+        String tipoExpresion = sintactico.expresionesHandler.getTipoExpresionActual();
+        String key = tipoVariable + "=" + tipoExpresion;
+        if (!TipoUtils.tiposTab.containsKey(key)) {
+            sintactico.erra("Error de Semantica", "Tipo de la expresión no coincide con el tipo de la variable", key);
+        } else {
+            // Actualizar el valor de la variable en la tabla de símbolos
+            sintactico.regtabSim(varName, new String[] { "V", tipoVariable, "0", "0" });
+        }
     }
 
     public boolean isRegresaPresente() {
