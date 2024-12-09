@@ -36,6 +36,7 @@
     1. Validación par que se usa el comando "regresa" en funciones con tipo establecido.
     2. Validación para que el tipo de retorno de una función coincida con el tipo de dato declarado para dicha función
     3. Se agregó asignación como comando "=", permitiendo operaciones aritmeticas o asignacion simple con sus respectivas validaciones semánticas de tipo.
+    4. Validar que no existan funciones con la misma firma (se permite sobrecarga)
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
@@ -45,9 +46,6 @@
 
     3) Cuando inicialice variables o constantes, “Validar tipo
         corresponda con el declarado”
-
-    4) Cuando se declare función, “Validar que no exista según
-        nombre y firma (orden y tipo de parámetro)”
 
     8) Cuando se inicializa valor a una VARIABLE lineal
         “Validar que NO este dimensionada

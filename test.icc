@@ -3,7 +3,6 @@ importar "fmt"
 
 constante SALUDO alfabetico="HOLA"
 variable num entero
-variable valDec decimal
 constante vector[4]entero{10, 20, 30, 60}
 constante MAX entero=10
 variable i, j entero
@@ -11,12 +10,77 @@ variable nom alfabetico="Juan"
 
 // Funcion principal
 funcion principal() {
-  //fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
-  valDec = [(5 + 5) / 2] + 100
-  valDec = MAX
+  fmt.Imprimenl("Hola Mundo " , "Bienvenidos a VAMOS")
+  // Llamar funcion
+  sumaNumeros(num)
 }
 
 // Funcion de ejemplo con parametros y tipo de dato
 funcion sumaNumeros(n entero) entero {
+  regresa n
+}
+
+// Funcion para probar la sentencia de control si
+funcion validarSi(dato entero){
+  si dato == 1 {
+    fmt.Imprimenl("El dato es uno")
+  } sino {
+    fmt.Imprimenl("El dato no es uno")
+  }
+
+  si dato != 1 {
+    fmt.Imprimenl("El dato no es uno")
+  }
+
+  si dato >= 1 {
+    fmt.Imprimenl("El dato es mayor o igual a uno")
+  }
+
+  si dato >= 1 && dato < 50 {
+    fmt.Imprimenl("El dato es mayor o igual a uno y es menor a 50")
+  }
+
+  si dato >= 1 || dato < 50 {
+    fmt.Imprimenl("El dato es mayor o igual a uno o es menor a 50")
+  }
+}
+
+funcion testDesdeSimple(){
+  // probar desde con sintaxis simple
+  desde {
+    fmt.Imprimenl("Imprimiedo en bucle")
+  }
+}
+
+funcion testDesdeCompleto(n entero, n2 entero){
+  // Probar desde con sintaxis completa
+  desde i = 0; i < MAX; i = i + 1 { 
+    fmt.Imprimenl(i)
+  }
+}
+
+funcion testSegun(){
+  // Probar con tipo alfabetico
+  segun nom {
+    caso "Juan":
+      fmt.Imprimenl("El nombre es Juan")
+    interrumpe
+    predeterminado:
+      fmt.Imprimenl("El nombre no coincide")
+  }
+
+  // probar con tipo entero
+  segun num {
+    caso 1:
+      fmt.Imprimenl("El numero es 1")
+    interrumpe
+    predeterminado:
+      fmt.Imprimenl("El numero no coincide")
+  }
+}
+
+// Funcion de ejemplo con parametros y tipo de dato
+funcion opNumeros(n entero) entero {
+  num = n + 5
   regresa [5+(5*2)]
 }

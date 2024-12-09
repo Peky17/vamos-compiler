@@ -1,12 +1,15 @@
 package handlers;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import sintactico.Sintactico;
 import utils.Token;
 
 public class Funciones {
     private Sintactico sintactico;
     private String tipoRetornoActual = "";
+    private Map<String, String> funcionesRegistradas = new HashMap<>();
 
     public Funciones(Sintactico sintactico) {
         this.sintactico = sintactico;
@@ -24,41 +27,6 @@ public class Funciones {
         }
     }
 
-    public void pars() {
-        avanzarToken();
-        if (!sintactico.tok.equals("Ide")) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba identificador y llego", sintactico.lex);
-            return;
-        }
-        String nomIde = sintactico.lex;
-        avanzarToken();
-        if (!Arrays.asList("alfabetico", "decimal", "entero", "logico").contains(sintactico.lex)) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba tipo de dato y llego", sintactico.lex);
-            return;
-        }
-        String tipo = "";
-        switch (sintactico.lex) {
-            case "alfabetico":
-                tipo = "A";
-                break;
-            case "logico":
-                tipo = "L";
-                break;
-            case "entero":
-                tipo = "E";
-                break;
-            case "decimal":
-                tipo = "D";
-                break;
-        }
-        // Registrar parámetro en la tabla de símbolos
-        sintactico.regtabSim(nomIde, new String[] { "P", tipo, "0", "0" });
-        avanzarToken();
-        if (sintactico.lex.equals(",")) {
-            sintactico.funcionesHandler.pars();
-        }
-    }
-
     public void funciones() {
         avanzarToken();
 
@@ -68,6 +36,7 @@ public class Funciones {
             return;
         }
 
+        String nombreFuncion = sintactico.lex;
         avanzarToken();
 
         // Verificar apertura de paréntesis para los parámetros
@@ -79,6 +48,7 @@ public class Funciones {
         avanzarToken();
 
         // Procesar parámetros de la función, si los hay
+        StringBuilder firma = new StringBuilder(nombreFuncion + "(");
         if (!sintactico.lex.equals(")")) {
             while (true) {
                 // Verificar que el parámetro tenga un identificador
@@ -113,6 +83,7 @@ public class Funciones {
                 }
                 sintactico.regtabSim(nomIde, new String[] { "P", tipo, "0", "0" }); // Registrar parámetro en la tabla
                                                                                     // de símbolos
+                firma.append(tipo);
 
                 avanzarToken();
 
@@ -124,14 +95,24 @@ public class Funciones {
                     return;
                 }
 
+                firma.append(",");
                 avanzarToken();
             }
         }
+        firma.append(")");
 
         // Verificar cierre de paréntesis de parámetros
         if (!sintactico.lex.equals(")")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba ')' y llegó", sintactico.lex);
             return;
+        }
+
+        // Verificar si la firma ya está registrada
+        if (funcionesRegistradas.containsKey(firma.toString())) {
+            sintactico.erra("Error de Semantica", "Ya existe una función con la misma firma", firma.toString());
+            return;
+        } else {
+            funcionesRegistradas.put(firma.toString(), nombreFuncion);
         }
 
         avanzarToken();

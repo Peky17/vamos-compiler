@@ -79,6 +79,8 @@ funcion testSegun(){
   }
 }
 
-funcion algo (){
-  fmt.Imprimenl("holaa")
+// Funcion de ejemplo con parametros y tipo de dato
+funcion opNumeros(n entero) entero {
+  num = n + 5
+  regresa [5+(5*2)]
 }
