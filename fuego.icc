@@ -58,6 +58,10 @@ funcion testDesdeCompleto(n entero, n2 entero){
         si vector[i] > vector[j] {
             tmp = vector[i]
             fmt.Imprimenl("i > j")
+            // intercambio de valores de variables
+            fiba, fibo = i , j
+            // intercambio de valores con vectores
+            //vector[i], vector[j] = vector[j], vector[i]
         }
     }
   }

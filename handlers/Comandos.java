@@ -1,5 +1,6 @@
 package handlers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,17 +72,18 @@ public class Comandos {
         } else if (sintactico.tok.equals("Ide")) {
             String varName = sintactico.lex;
             avanzarToken();
-            // Verificar si es una llamada a función o una asignación
-            if (sintactico.lex.equals("(")) {
+            if (sintactico.lex.equals(",")) {
+                retrocederToken();
+                intercambio();
+            } else if (sintactico.lex.equals("(")) {
                 retrocederToken();
                 sintactico.funcionesHandler.llamadaFuncion();
             } else if (sintactico.lex.equals("=")) {
-                // Asignación de variable
                 asignacion(varName);
             } else {
                 retrocederToken();
-                sintactico.erra("Error de Sintaxis",
-                        "Se esperaba asignación '=' o llamada de función '('", sintactico.lex);
+                sintactico.erra("Error de Sintaxis", "Se esperaba asignación '=' o llamada de función '('",
+                        sintactico.lex);
             }
         } else {
             sintactico.erra("Error de Sintaxis", "Comando no reconocido", sintactico.lex);
@@ -315,6 +317,77 @@ public class Comandos {
         } else {
             // Actualizar el valor de la variable en la tabla de símbolos
             sintactico.regtabSim(varName, new String[] { "V", tipoVariable, "0", "0" });
+        }
+    }
+
+    private void intercambio() {
+        List<String> variables = new ArrayList<>();
+        List<String> tipos = new ArrayList<>();
+
+        // Leer las variables antes del '='
+        while (true) {
+            if (!sintactico.tok.equals("Ide")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
+                return;
+            }
+            variables.add(sintactico.lex);
+            String[] data = sintactico.leetabSim(sintactico.lex);
+            if (data.length == 0) {
+                sintactico.erra("Error de Semantica", "Identificador no declarado", sintactico.lex);
+                return;
+            }
+            tipos.add(data[1]);
+            avanzarToken();
+            if (!sintactico.lex.equals(",")) {
+                break;
+            }
+            avanzarToken();
+        }
+
+        if (!sintactico.lex.equals("=")) {
+            sintactico.erra("Error de Sintaxis", "Se esperaba '=' y llegó", sintactico.lex);
+            return;
+        }
+        avanzarToken();
+
+        // Leer las variables después del '='
+        List<String> valores = new ArrayList<>();
+        for (int i = 0; i < variables.size(); i++) {
+            if (!sintactico.tok.equals("Ide")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
+                return;
+            }
+            valores.add(sintactico.lex);
+            String[] data = sintactico.leetabSim(sintactico.lex);
+            if (data.length == 0) {
+                sintactico.erra("Error de Semantica", "Identificador no declarado", sintactico.lex);
+                return;
+            }
+            if (!data[1].equals(tipos.get(i))) {
+                sintactico.erra("Error de Semantica", "Tipos incompatibles en el intercambio", sintactico.lex);
+                return;
+            }
+            avanzarToken();
+            if (i < variables.size() - 1) {
+                if (!sintactico.lex.equals(",")) {
+                    sintactico.erra("Error de Sintaxis", "Se esperaba ',' y llegó", sintactico.lex);
+                    return;
+                }
+                avanzarToken();
+            }
+        }
+
+        // Realizar el intercambio
+        for (int i = 0; i < variables.size(); i++) {
+            String temp = valores.get(i);
+            valores.set(i, variables.get(i));
+            variables.set(i, temp);
+        }
+
+        // Actualizar la tabla de símbolos
+        for (int i = 0; i < variables.size(); i++) {
+            sintactico.regtabSim(variables.get(i), new String[] { "V", tipos.get(i), "0", "0" });
+            sintactico.regtabSim(valores.get(i), new String[] { "V", tipos.get(i), "0", "0" });
         }
     }
 

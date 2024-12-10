@@ -29,6 +29,7 @@
     12. Mensaje de error cuando un identificador no es un comando, ni variable definida o algo en específico.
     13. Permitir dimensionar arreglos con una constante entera declarada o establecida numericamente.
     14. Permitir acceso a indices de un arreglo [Cte] || [V, C] (definido previamente en tabla se símbolos).
+    15. Validacion sintactica para slice o intercambio de valores: a, b = b, a || a, b = b, c
 
 ## Funcionalidades implmentadas (Análisis Semántico)
 
@@ -49,7 +50,8 @@
         que este "dimensionada" (que tenga un valor constante asignado)
     12. Validaciones para permitir recursividad con validacion de firma.
     13. Validaciones semanticas de tipo en la sentencia "desde".
-    14. Registro y validación de tipo de vector en tabla de símbolos.    
+    14. Registro y validación de tipo de vector en tabla de símbolos.
+    15. Validación de tipos para slice o intercambio de valores entre variables a,b = b, a    
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
