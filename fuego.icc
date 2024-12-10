@@ -60,7 +60,7 @@ funcion testDesdeCompleto(n entero, n2 entero){
             fmt.Imprimenl("i > j")
             // intercambio de valores de variables
             fiba, fibo = i , j
-            //vector[j] = 4
+            vector[j] = 4
             // intercambio de valores con vectores
             vector[i], vector[j] = vector[j], vector[i]
         }
