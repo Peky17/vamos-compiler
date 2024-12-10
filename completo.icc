@@ -1,0 +1,76 @@
+// Simular importar paquete fmt
+importar "fmt"
+
+variable nom alfabetico="Juan"
+constante MAX entero = 3
+variable vector[MAX]entero{10, 20, 30, 60}
+variable fiba, fibo, tmp entero
+variable i, j, num entero
+
+funcion OrdBurbuja() {
+   //Ordena Vec
+   desde i=i; i<(MAX-1);i=i+1 {
+      desde j=i+1; j < MAX; j=j+1 {
+         si vector[i] > vector[j] {
+            tmp = vector[i]
+            vector[i], vector[j] = vector[j], tmp 
+         }
+      }
+   }
+   //Imprime arreglo ordenado
+   fmt.Imprimenl("[")
+   desde i=0;i<MAX;i=i+1 {
+     fmt.Imprimenl(vector[i], " ")
+   }
+   fmt.Imprimenl("]\n")
+   //Fin de Ordena
+}
+
+funcion facrec(n entero) entero {
+   si n == 0 || n == 1 {
+      regresa 1
+   }
+   sino {
+      regresa n * facrec(n-1)
+   }
+}
+
+funcion esPrimo(n entero) logico {
+   i = 1
+   desde {
+      si n % i == 0 {
+         regresa falso
+      }
+      i = i + 1
+      si i > n {
+         regresa verdadero
+      }
+   }
+}
+
+funcion fibonacci(n entero) entero {
+   //Fibonacci
+   fmt.Imprimenl("Dame num: ")
+   fmt.Leer(num)
+   si num == 0 || num == 1 {
+     regresa num
+   }
+   fiba = 0
+   fibo = 1
+   i = 2
+   si num > 1 {
+      desde {
+          tmp = fibo
+          fibo = fiba + fibo
+          fiba = tmp
+          i = i + 1
+          si i > num {
+              regresa fibo
+          }
+      }
+   }
+}
+
+funcion principal(){
+    OrdBurbuja()
+}
