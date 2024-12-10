@@ -127,9 +127,15 @@ public class Comandos {
             desdeSimple();
             return;
         }
+        // El identificador debe estar registrado en la tabla de símbolos
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba un identificador para la inicialización y llegó",
                     sintactico.lex);
+            return;
+        }
+        String iterador = sintactico.lex;
+        if (sintactico.leetabSim(iterador).length == 0) {
+            sintactico.erra("Error de Semantica", "Identificador no declarado", iterador);
             return;
         }
         avanzarToken();
@@ -138,12 +144,14 @@ public class Comandos {
             return;
         }
         avanzarToken();
-        if (!sintactico.tok.equals("Ent")) {
+        // Se debe permitir asignacion de un entero, una variable o constante entera, o
+        // una expresión aritmética
+        String tipoExpresion = sintactico.expresionesHandler.expr();
+        if (!tipoExpresion.equals("E")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba un valor entero para la inicialización y llegó",
                     sintactico.lex);
             return;
         }
-        avanzarToken();
         if (!sintactico.lex.equals(";")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba ';' y llegó", sintactico.lex);
             return;

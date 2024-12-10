@@ -1,10 +1,11 @@
 // Simular importar paquete fmt
 importar "fmt"
 
+variable nom alfabetico="Juan"
 constante MAX entero = 3
 constante vector[MAX]entero{10, 20, 30, 60}
+variable fiba, fibo, tmp entero
 variable i, j entero
-variable nom alfabetico="Juan"
 
 funcion anidacionSegun(n entero){
     segun n {
@@ -33,11 +34,35 @@ funcion facrec(n entero) entero {
       regresa 1
    }
    sino {
-      regresa n * facrec(5.5)
+      regresa n * facrec(n-1)
    }
+}
+
+funcion esPrimo(n entero) logico {
+   i = 1
+   desde {
+      si n % i == 0 {
+         regresa falso
+      }
+      i = i + 1
+      si i > n {
+         regresa verdadero
+      }
+   }
+}
+
+funcion testDesdeCompleto(n entero, n2 entero){
+  // Probar desde con sintaxis completa
+  desde i = 5; i < (MAX-1); i = i+1 {
+    desde j= i-2; j < MAX; j = j+1 {
+        fmt.Imprimenl("algo")
+        tmp = 55 / 3.33
+    }
+  }
 }
 
 // Funcion principal
 funcion principal() {
   anidacionSegun(1)
+  esPrimo(7)
 }

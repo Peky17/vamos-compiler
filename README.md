@@ -46,7 +46,8 @@
     10. Validación de dimensión de arreglo con una cosntante entera, ya sea declarada anteriormente como constante o establecida explicitamente como numero entero.
     11. Cuando se inicializa como grupo de constantes, validar
         que este "dimensionada" (que tenga un valor constante asignado)
-    12. Validaciones para permitir recursividad con validacion de firma.    
+    12. Validaciones para permitir recursividad con validacion de firma.
+    13. Validaciones semanticas de tipo en la sentencia "desde".    
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
