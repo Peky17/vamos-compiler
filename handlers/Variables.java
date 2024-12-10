@@ -34,6 +34,7 @@ public class Variables {
     }
 
     public void varsconsts() {
+        boolean isConstant = sintactico.lex.equals("constante");
         avanzarToken();
         if (!sintactico.tok.equals("Ide")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba Ide y llego", sintactico.lex);
@@ -73,7 +74,8 @@ public class Variables {
         // Registrar todas las variables en la tabla de símbolos
         String[] variables = nomIdes.toString().split(",");
         for (String variable : variables) {
-            sintactico.regtabSim(variable.trim(), new String[] { "V", tipo, "0", "0" });
+            sintactico.regtabSim(variable.trim(),
+                    new String[] { isConstant ? "C" : "V", tipo, "0", "0" });
         }
         avanzarToken();
         if (sintactico.lex.equals("=")) {
@@ -120,12 +122,23 @@ public class Variables {
 
     public void arreglo() {
         avanzarToken();
-        if (!sintactico.tok.equals("Ent")) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba un número entero y llegó", sintactico.lex);
+        if (sintactico.tok.equals("Ent")) {
+            // Es una constante entera
+            avanzarToken();
+        } else if (sintactico.tok.equals("Ide")) {
+            // Es un identificador, verificar si es una constante entera
+            String[] simbolo = sintactico.leetabSim(sintactico.lex);
+            if (simbolo.length == 0 || !simbolo[0].equals("C") || !simbolo[1].equals("E")) {
+                sintactico.erra("Error de Semantica", "Se esperaba una constante entera y llego", sintactico.lex);
+                return;
+            }
+            avanzarToken();
+        } else {
+            sintactico.erra("Error de Sintaxis", "Se esperaba un número entero o una constante entera y llegó",
+                    sintactico.lex);
             return;
         }
 
-        avanzarToken();
         if (!sintactico.lex.equals("]")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
             return;

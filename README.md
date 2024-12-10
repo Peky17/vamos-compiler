@@ -27,6 +27,7 @@
     10. Sentencia de control según: [caso, predeterminado] 
     11. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis y corchetes en operaciones aritméticas.
     12. Mensaje de error cuando un identificador no es un comando, ni variable definida o algo en específico.
+    13. Permitir dimensionar arreglos con una constante entera declarada o establecida numericamente.
 
 ## Funcionalidades implmentadas (Análisis Semántico)
 

@@ -64,6 +64,9 @@ public class Semantico {
         // Análisis de funciones y validación de errores
         sintactico.analizarFuncionesDeclaradas();
 
+        // imprimir la tabla de símbolos (variables, constantes y funciones)
+        System.out.println(sintactico.leetabSim());
+
         boolean errEstatus = ErrorManager.getInstance().hasError();
 
         // Verifica y muestra el mensaje de compilación

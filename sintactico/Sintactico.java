@@ -49,6 +49,17 @@ public class Sintactico {
         return tabSim.get(key);
     }
 
+    // imprimir la tabla de símbolos
+    public String leetabSim() {
+        StringBuilder tabla = new StringBuilder();
+        for (Map.Entry<String, String[]> entry : tabSim.entrySet()) {
+            tabla.append(entry.getKey()).append(" -> ")
+                    .append(entry.getValue()[0]).append(" ").append(entry.getValue()[1])
+                    .append("\n");
+        }
+        return tabla.toString();
+    }
+
     public void analizarFuncionesDeclaradas() {
         // Iniciar el análisis sintáctico y semántico de las funciones
         funcionesHandler.funciones();

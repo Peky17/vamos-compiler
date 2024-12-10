@@ -2,9 +2,9 @@
 importar "fmt"
 
 constante SALUDO alfabetico="HOLA"
+constante MAX entero = 3
 variable num entero
-constante vector[4]entero{10, 20, 30, 60}
-constante MAX entero=10
+constante vector[MAX]entero{10, 20, 30, 60}
 variable i, j entero
 variable nom alfabetico="Juan"
 
