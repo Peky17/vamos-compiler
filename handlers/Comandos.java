@@ -3,6 +3,7 @@ package handlers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 import sintactico.Sintactico;
 import utils.TipoUtils;
@@ -10,11 +11,13 @@ import utils.Token;
 
 public class Comandos {
     private Sintactico sintactico;
+    private Stack<String> controlStructures;
 
     private boolean regresaPresente = false;
 
     public Comandos(Sintactico sintactico) {
         this.sintactico = sintactico;
+        this.controlStructures = new Stack<>();
     }
 
     private void avanzarToken() {
@@ -62,9 +65,13 @@ public class Comandos {
         } else if (sintactico.lex.equals("si")) {
             siSino();
         } else if (sintactico.lex.equals("desde")) {
+            controlStructures.push("desde");
             desde();
+            controlStructures.pop();
         } else if (sintactico.lex.equals("segun")) {
+            controlStructures.push("segun");
             segun();
+            controlStructures.pop();
         } else if (sintactico.lex.equals("interrumpe")) {
             interrumpe();
         } else if (sintactico.lex.equals("predeterminado")) {
@@ -262,6 +269,11 @@ public class Comandos {
     }
 
     public void interrumpe() {
+        if (controlStructures.isEmpty()) {
+            sintactico.erra("Error de Sintaxis", 
+            "La sentencia 'interrumpe' debe estar dentro de 'segun' o 'desde'",
+                    sintactico.lex);
+        }
         avanzarToken();
     }
 

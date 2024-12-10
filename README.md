@@ -53,8 +53,6 @@
     14. Registro y validación de tipo de vector en tabla de símbolos.
     15. Validación de tipos para slice o intercambio de valores entre variables a,b = b, a
     16. Vaidacion de tipo para asignar valor a variable dimensionada o arreglo mediante indice.
-    17  Validación de tipos para slice o intercambio de valores entre variables dimensionadas   
+    17  Validación de tipos para slice o intercambio de valores entre variables dimensionadas 
+    18  Si existe interrumpe; Validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun" usando una pila.
     
-## Funcionalidades que faltan implementar (Análisis Semántico)
-
-    10) Si existe interrumpe; Validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"
