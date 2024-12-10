@@ -62,6 +62,7 @@ funcion testDesdeCompleto(n entero, n2 entero){
             fiba, fibo = i , j
             // intercambio de valores con vectores
             //vector[i], vector[j] = vector[j], vector[i]
+            vector[j] = 4
         }
     }
   }
