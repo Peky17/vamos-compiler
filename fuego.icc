@@ -3,7 +3,7 @@ importar "fmt"
 
 variable nom alfabetico="Juan"
 constante MAX entero = 3
-constante vector[MAX]entero{10, 20, 30, 60}
+variable vector[MAX]entero{10, 20, 30, 60}
 variable fiba, fibo, tmp entero
 variable i, j entero
 
@@ -60,9 +60,9 @@ funcion testDesdeCompleto(n entero, n2 entero){
             fmt.Imprimenl("i > j")
             // intercambio de valores de variables
             fiba, fibo = i , j
+            //vector[j] = 4
             // intercambio de valores con vectores
-            //vector[i], vector[j] = vector[j], vector[i]
-            vector[j] = 4
+            vector[i], vector[j] = vector[j], vector[i]
         }
     }
   }

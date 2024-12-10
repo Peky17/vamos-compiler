@@ -74,7 +74,11 @@ public class Comandos {
             avanzarToken();
             if (sintactico.lex.equals(",")) {
                 retrocederToken();
-                intercambio();
+                if (isArreglo(varName)) {
+                    intercambioArreglos();
+                } else {
+                    intercambioVariables();
+                }
             } else if (sintactico.lex.equals("(")) {
                 retrocederToken();
                 sintactico.funcionesHandler.llamadaFuncion();
@@ -308,59 +312,96 @@ public class Comandos {
     }
 
     private void asignacion(String varName) {
-        boolean esArreglo = false;
-        String indice = null;
-
         avanzarToken();
         if (sintactico.lex.equals("[")) {
-            // Es un acceso a arreglo
-            esArreglo = true;
+            // Es una asignación a un arreglo
             avanzarToken();
-            indice = sintactico.lex;
-            sintactico.expresionesHandler.expr();
+            sintactico.expresionesHandler.expr(); // Validar índice del arreglo
             if (!sintactico.lex.equals("]")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
                 return;
             }
             avanzarToken();
+            if (!sintactico.lex.equals("=") && !sintactico.lex.equals(",")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba '=' y llegó", sintactico.lex);
+                return;
+            }
+
+            if (sintactico.lex.equals(",")) {
+                // intercambio de arreglos
+                intercambioArreglos();
+            }
+
+            avanzarToken();
+            sintactico.expresionesHandler.expr(); // Validar expresión de asignación
+        } else if (sintactico.lex.equals("=")) {
+            // Es una asignación a una variable no dimensionada
+            avanzarToken();
+            sintactico.expresionesHandler.expr(); // Validar expresión de asignación
+        } else {
+            sintactico.erra("Error de Sintaxis", "Se esperaba '=' o '[' y llegó", sintactico.lex);
+            return;
+        }
+    }
+
+    private void intercambioVariables() {
+        List<String> variablesIzquierda = new ArrayList<>();
+
+        // Leer las variables en el lado izquierdo del '='
+        while (true) {
+            if (!sintactico.tok.equals("Ide")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
+                return;
+            }
+            String varName = sintactico.lex;
+            variablesIzquierda.add(varName);
+            avanzarToken();
+            if (!sintactico.lex.equals(",")) {
+                break; // Salimos si no hay más variables
+            }
+            avanzarToken(); // Consumir la coma
         }
 
+        // Validar el signo '='
         if (!sintactico.lex.equals("=")) {
             sintactico.erra("Error de Sintaxis", "Se esperaba '=' y llegó", sintactico.lex);
             return;
         }
         avanzarToken();
 
-        String tipoExpresion = sintactico.expresionesHandler.expr();
-        String[] data = sintactico.leetabSim(varName);
-        if (data.length == 0) {
-            sintactico.erra("Error de Semantica", "Identificador no declarado", varName);
-            return;
+        // Leer las variables en el lado derecho del '='
+        List<String> variablesDerecha = new ArrayList<>();
+        for (int i = 0; i < variablesIzquierda.size(); i++) {
+            if (!sintactico.tok.equals("Ide")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
+                return;
+            }
+            String varName = sintactico.lex;
+            variablesDerecha.add(varName);
+            avanzarToken();
+            if (i < variablesIzquierda.size() - 1) {
+                if (!sintactico.lex.equals(",")) {
+                    sintactico.erra("Error de Sintaxis", "Se esperaba ',' y llegó", sintactico.lex);
+                    return;
+                }
+                avanzarToken(); // Consumir la coma
+            }
         }
 
-        String tipoVariable = data[1];
-        String key = tipoVariable + "=" + tipoExpresion;
-        if (!TipoUtils.tiposTab.containsKey(key)) {
-            sintactico.erra("Error de Semantica", "Tipo de la expresión no coincide con el tipo de la variable", key);
-        } else {
-            // Actualizar el valor de la variable en la tabla de símbolos
-            if (esArreglo) {
-                // Actualizar el valor del elemento del arreglo
-                sintactico.regtabSim(varName + "[" + indice + "]", new String[] { "A", tipoVariable, "0", "0" });
-            } else {
-                // Actualizar el valor de la variable lineal
-                sintactico.regtabSim(varName, new String[] { "V", tipoVariable, "0", "0" });
-            }
+        // Realizar el intercambio sin validación
+        for (int i = 0; i < variablesIzquierda.size(); i++) {
+            String temp = variablesIzquierda.get(i);
+            variablesIzquierda.set(i, variablesDerecha.get(i));
+            variablesDerecha.set(i, temp);
         }
     }
 
-    private void intercambio() {
-        List<String> variables = new ArrayList<>();
-        List<String> tipos = new ArrayList<>();
-        List<Boolean> esArreglo = new ArrayList<>();
-        List<String> indices = new ArrayList<>();
+    private void intercambioArreglos() {
+        avanzarToken();
+        List<String> variablesIzquierda = new ArrayList<>();
+        List<String> indicesIzquierda = new ArrayList<>();
 
-        // Leer las variables antes del '='
+        // Leer las variables en el lado izquierdo del '='
         while (true) {
             if (!sintactico.tok.equals("Ide")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
@@ -368,123 +409,83 @@ public class Comandos {
             }
             String varName = sintactico.lex;
             avanzarToken();
-            if (sintactico.lex.equals("[")) {
-                // Es un acceso a arreglo
-                esArreglo.add(true);
-                avanzarToken();
-                String indice = sintactico.lex;
-                sintactico.expresionesHandler.expr();
-                if (!sintactico.lex.equals("]")) {
-                    sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
-                    return;
-                }
-                indices.add(indice);
-                avanzarToken();
-            } else {
-                // Es una variable lineal
-                esArreglo.add(false);
-                indices.add(null);
-            }
-            variables.add(varName);
-            String[] data = sintactico.leetabSim(varName);
-            if (data.length == 0) {
-                sintactico.erra("Error de Semantica", "Identificador no declarado", varName);
+            if (!sintactico.lex.equals("[")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba '[' y llegó", sintactico.lex);
                 return;
             }
-            tipos.add(data[1]);
-            if (!sintactico.lex.equals(",")) {
-                break;
-            }
             avanzarToken();
+            String indice = sintactico.lex;
+            sintactico.expresionesHandler.expr(); // Validar índice del arreglo
+            if (!sintactico.lex.equals("]")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
+                return;
+            }
+            indicesIzquierda.add(indice);
+            variablesIzquierda.add(varName);
+            avanzarToken();
+            if (!sintactico.lex.equals(",")) {
+                break; // Salimos si no hay más variables
+            }
+            avanzarToken(); // Consumir la coma
         }
 
+        // Validar el signo '='
         if (!sintactico.lex.equals("=")) {
-            sintactico.erra("Error de Sintaxis", "Se esperaba '=' y llegó", sintactico.lex);
+            sintactico.erra("Error de Sintaxis intercambio array", "Se esperaba '=' y llegó", sintactico.lex);
             return;
         }
         avanzarToken();
 
-        // Leer las variables después del '='
-        List<String> valores = new ArrayList<>();
-        List<Boolean> esArregloValores = new ArrayList<>();
-        List<String> indicesValores = new ArrayList<>();
-        for (int i = 0; i < variables.size(); i++) {
+        // Leer las variables en el lado derecho del '='
+        List<String> variablesDerecha = new ArrayList<>();
+        List<String> indicesDerecha = new ArrayList<>();
+        for (int i = 0; i < variablesIzquierda.size(); i++) {
             if (!sintactico.tok.equals("Ide")) {
                 sintactico.erra("Error de Sintaxis", "Se esperaba un identificador y llegó", sintactico.lex);
                 return;
             }
             String varName = sintactico.lex;
             avanzarToken();
-            if (sintactico.lex.equals("[")) {
-                // Es un acceso a arreglo
-                esArregloValores.add(true);
-                avanzarToken();
-                String indice = sintactico.lex;
-                sintactico.expresionesHandler.expr();
-                if (!sintactico.lex.equals("]")) {
-                    sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
-                    return;
-                }
-                indicesValores.add(indice);
-                avanzarToken();
-            } else {
-                // Es una variable lineal
-                esArregloValores.add(false);
-                indicesValores.add(null);
-            }
-            valores.add(varName);
-            String[] data = sintactico.leetabSim(varName);
-            if (data.length == 0) {
-                sintactico.erra("Error de Semantica", "Identificador no declarado", varName);
+            if (!sintactico.lex.equals("[")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba '[' y llegó", sintactico.lex);
                 return;
             }
-            if (!data[1].equals(tipos.get(i))) {
-                sintactico.erra("Error de Semantica", "Tipos incompatibles en el intercambio", varName);
+            avanzarToken();
+            String indice = sintactico.lex;
+            sintactico.expresionesHandler.expr();
+            if (!sintactico.lex.equals("]")) {
+                sintactico.erra("Error de Sintaxis", "Se esperaba ']' y llegó", sintactico.lex);
                 return;
             }
-            if (i < variables.size() - 1) {
+            indicesDerecha.add(indice);
+            variablesDerecha.add(varName);
+            avanzarToken();
+            if (i < variablesIzquierda.size() - 1) {
                 if (!sintactico.lex.equals(",")) {
                     sintactico.erra("Error de Sintaxis", "Se esperaba ',' y llegó", sintactico.lex);
                     return;
                 }
-                avanzarToken();
+                avanzarToken(); // Consumir la coma
             }
         }
 
-        // Realizar el intercambio
-        for (int i = 0; i < variables.size(); i++) {
-            if (esArreglo.get(i) && esArregloValores.get(i)) {
-                // Intercambio entre elementos de arreglos
-                String temp = valores.get(i) + "[" + indicesValores.get(i) + "]";
-                valores.set(i, variables.get(i) + "[" + indices.get(i) + "]");
-                variables.set(i, temp);
-            } else if (esArreglo.get(i)) {
-                // Intercambio entre variable lineal y elemento de arreglo
-                String temp = valores.get(i);
-                valores.set(i, variables.get(i) + "[" + indices.get(i) + "]");
-                variables.set(i, temp);
-            } else if (esArregloValores.get(i)) {
-                // Intercambio entre elemento de arreglo y variable lineal
-                String temp = valores.get(i) + "[" + indicesValores.get(i) + "]";
-                valores.set(i, variables.get(i));
-                variables.set(i, temp);
-            } else {
-                // Intercambio entre variables lineales
-                String temp = valores.get(i);
-                valores.set(i, variables.get(i));
-                variables.set(i, temp);
-            }
-        }
-
-        // Actualizar la tabla de símbolos
-        for (int i = 0; i < variables.size(); i++) {
-            sintactico.regtabSim(variables.get(i), new String[] { "V", tipos.get(i), "0", "0" });
-            sintactico.regtabSim(valores.get(i), new String[] { "V", tipos.get(i), "0", "0" });
+        // Realizar el intercambio sin validación
+        for (int i = 0; i < variablesIzquierda.size(); i++) {
+            String temp = variablesIzquierda.get(i);
+            variablesIzquierda.set(i, variablesDerecha.get(i));
+            variablesDerecha.set(i, temp);
         }
     }
 
     public boolean isRegresaPresente() {
         return regresaPresente;
+    }
+
+    private boolean isArreglo(String varName) {
+        avanzarToken();
+        boolean result = sintactico.lex.equals("[");
+        retrocederToken();
+        return result;
     }
 
     public List<Token> getTokens() {

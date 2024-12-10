@@ -52,7 +52,8 @@
     13. Validaciones semanticas de tipo en la sentencia "desde".
     14. Registro y validación de tipo de vector en tabla de símbolos.
     15. Validación de tipos para slice o intercambio de valores entre variables a,b = b, a
-    16. Vaidacion de tipo para asignar valor a variable dimensionada o arreglo mediante indice.    
+    16. Vaidacion de tipo para asignar valor a variable dimensionada o arreglo mediante indice.
+    17  Validación de tipos para slice o intercambio de valores entre variables dimensionadas   
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
