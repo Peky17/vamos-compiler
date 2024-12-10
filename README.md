@@ -43,14 +43,12 @@
     7. Agregar las variables separadas por coma (,) a la tabla de símbolos para validación semantica.
     8. Cuando inicialice variables o constantes, “Validar que el tipo de dato corresponda con   el declarado”
     9. Cuando se inicializa valor a una VARIABLE lineal Validar que NO este dimensionada
+    10. Validación de dimensión de arreglo con una cosntante entera, ya sea declarada anteriormente como constante o establecida explicitamente como numero entero.
+    11. Cuando se inicializa como grupo de constantes Validar
+        que este "dimensionada" (que tenga un valor constante asignado)
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 
-    1) En declaracion de dimension de una varible dimensionada, “Validar si usa un Ide en Dimension se haya declarado constante”
+    9) 
 
-    2) En declaracion de dimension de una varible dimensionada, “Validar si usa un Ide en Dimension tipo entero”
-
-    9) Cuando se inicializa como grupo de constantes Validar
-        que este "dimensionada" (que tenga un valor constante asignado)
-
-    10) Si existe interrumpe “validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"
+    10) Si existe interrumpe; Validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"
