@@ -80,9 +80,10 @@ public class Variables {
         avanzarToken();
         if (sintactico.lex.equals("=")) {
             avanzarToken();
-            if (sintactico.lex.equals("{"))
-                sintactico.variablesHandler.gpoctes();
-            else {
+            if (sintactico.lex.equals("{")) {
+                sintactico.erra("Error de Sintaxis", "No se puede asignar como arreglo una variable lineal",
+                        sintactico.lex);
+            } else {
                 if (!Arrays.asList("CtA", "CtL", "Dec", "Ent").contains(sintactico.tok)) {
                     sintactico.erra("Error de Sintaxis", "Se esperaba CtA, CtL, Ent o Dec y llego", sintactico.lex);
                 } else {
