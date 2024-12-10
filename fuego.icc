@@ -55,10 +55,10 @@ funcion testDesdeCompleto(n entero, n2 entero){
   // Probar desde con sintaxis completa
   desde i = 5; i < (MAX-1); i = i+1 {
     desde j= i-2; j < MAX; j = j+1 {
-        //si vector[i] > vector[j] {
-            //tmp = vector[i]
-            //fmt.Imprimenl("i > j")
-        //}
+        si vector[i] > vector[j] {
+            tmp = vector[i]
+            fmt.Imprimenl("i > j")
+        }
     }
   }
 }

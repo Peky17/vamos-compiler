@@ -103,12 +103,27 @@ public class Expresiones {
                 sintactico.funcionesHandler.llamadaFuncion();
                 String tipoRetorno = sintactico.funcionesHandler.getTipoRetornoActual();
                 pTipos.push(tipoRetorno);
+            } else if (sintactico.lex.equals("[")) {
+                // Es un acceso a arreglo
+                nextToken();
+                expr();
+                if (!sintactico.lex.equals("]")) {
+                    sintactico.erra("Error de Sintaxis", "Se esperaba \"]\" y llegó", sintactico.lex);
+                }
+                nextToken();
+                String[] data = sintactico.leetabSim(nomIde);
+                if (data.length == 0) {
+                    sintactico.erra("Error de Semantica", "Identificador NO declarado y llegó", nomIde);
+                } else {
+                    String tipo = data[1];
+                    pTipos.push(tipo);
+                }
             } else {
                 // Es una variable
                 retrocederToken();
                 String[] data = sintactico.leetabSim(nomIde);
                 if (data.length == 0) {
-                    sintactico.erra("Error de Semantica", "Identificador NO declarado y llego", nomIde);
+                    sintactico.erra("Error de Semantica", "Identificador NO declarado y llegó", nomIde);
                 } else {
                     String tipo = data[1];
                     pTipos.push(tipo);

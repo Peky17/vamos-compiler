@@ -28,6 +28,7 @@
     11. Implementar análisis sintáctico para aceptar expresiones que permitan paréntesis y corchetes en operaciones aritméticas.
     12. Mensaje de error cuando un identificador no es un comando, ni variable definida o algo en específico.
     13. Permitir dimensionar arreglos con una constante entera declarada o establecida numericamente.
+    14. Permitir acceso a indices de un arreglo [Cte] || [V, C] (definido previamente en tabla se símbolos).
 
 ## Funcionalidades implmentadas (Análisis Semántico)
 
