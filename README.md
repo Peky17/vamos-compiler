@@ -44,11 +44,10 @@
     8. Cuando inicialice variables o constantes, “Validar que el tipo de dato corresponda con   el declarado”
     9. Cuando se inicializa valor a una VARIABLE lineal Validar que NO este dimensionada
     10. Validación de dimensión de arreglo con una cosntante entera, ya sea declarada anteriormente como constante o establecida explicitamente como numero entero.
-    11. Cuando se inicializa como grupo de constantes Validar
+    11. Cuando se inicializa como grupo de constantes, validar
         que este "dimensionada" (que tenga un valor constante asignado)
+    12. Validaciones para permitir recursividad con validacion de firma.    
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
-
-    9) 
 
     10) Si existe interrumpe; Validar que se este en un ciclo” siempre y cuando tampoco esté dentro de un "segun"

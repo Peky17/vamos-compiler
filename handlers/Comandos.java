@@ -51,9 +51,8 @@ public class Comandos {
             regresaPresente = true;
             avanzarToken();
             String tipoRetorno = sintactico.funcionesHandler.getTipoRetornoActual();
-            sintactico.expresionesHandler.expr();
+            String tipoExpresion = sintactico.expresionesHandler.expr();
             if (!tipoRetorno.isEmpty()) {
-                String tipoExpresion = sintactico.expresionesHandler.getTipoExpresionActual();
                 String key = tipoRetorno + "=" + tipoExpresion;
                 if (!TipoUtils.tiposTab.containsKey(key)) {
                     sintactico.erra("Error de Semantica", "Tipo de retorno no coincide con tipo de la función", key);

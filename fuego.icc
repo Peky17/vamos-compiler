@@ -1,0 +1,43 @@
+// Simular importar paquete fmt
+importar "fmt"
+
+constante MAX entero = 3
+constante vector[MAX]entero{10, 20, 30, 60}
+variable i, j entero
+variable nom alfabetico="Juan"
+
+funcion anidacionSegun(n entero){
+    segun n {
+        caso 1:
+            desde i = 0; i < MAX; i = nom { 
+                fmt.Imprimenl(i)
+            }
+        interrumpe
+        caso 2:
+            si nom == "Juan" {
+                fmt.Imprimenl("El dato es uno")
+                desde i = 0; i < MAX; i = nom { 
+                    fmt.Imprimenl(i)
+                }
+            } sino {
+                fmt.Imprimenl("El dato no es uno")
+            }
+        interrumpe
+        predeterminado:
+            fmt.Imprimenl("El numero no coincide")
+    }
+}
+
+funcion facrec(n entero) entero {
+   si n == 0 || n == 1 {
+      regresa 1
+   }
+   sino {
+      regresa n * facrec(5.5)
+   }
+}
+
+// Funcion principal
+funcion principal() {
+  anidacionSegun(1)
+}

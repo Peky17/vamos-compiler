@@ -96,13 +96,24 @@ public class Expresiones {
             nextToken();
         } else if (sintactico.tok.equals("Ide")) {
             String nomIde = sintactico.lex;
-            String[] data = sintactico.leetabSim(nomIde);
-            if (data.length == 0) {
-                sintactico.erra("Error de Semantica", "Identificador NO declarado y llego", nomIde);
+            nextToken();
+            if (sintactico.lex.equals("(")) {
+                // Es una llamada a función
+                retrocederToken();
+                sintactico.funcionesHandler.llamadaFuncion();
+                String tipoRetorno = sintactico.funcionesHandler.getTipoRetornoActual();
+                pTipos.push(tipoRetorno);
             } else {
-                String tipo = data[1];
-                pTipos.push(tipo);
-                nextToken();
+                // Es una variable
+                retrocederToken();
+                String[] data = sintactico.leetabSim(nomIde);
+                if (data.length == 0) {
+                    sintactico.erra("Error de Semantica", "Identificador NO declarado y llego", nomIde);
+                } else {
+                    String tipo = data[1];
+                    pTipos.push(tipo);
+                    nextToken();
+                }
             }
         } else {
             sintactico.erra("Error de Sintaxis", "Se esperaba un término y llegó", sintactico.lex);
@@ -142,5 +153,13 @@ public class Expresiones {
         Token token = sintactico.lexico.getTokenManager().nextToken();
         sintactico.tok = token.getTok();
         sintactico.lex = token.getLex();
+    }
+
+    private void retrocederToken() {
+        Token token = sintactico.lexico.getTokenManager().previousToken();
+        if (token != null) {
+            sintactico.tok = token.getTok();
+            sintactico.lex = token.getLex();
+        }
     }
 }
