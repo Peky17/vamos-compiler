@@ -47,7 +47,8 @@
     11. Cuando se inicializa como grupo de constantes, validar
         que este "dimensionada" (que tenga un valor constante asignado)
     12. Validaciones para permitir recursividad con validacion de firma.
-    13. Validaciones semanticas de tipo en la sentencia "desde".    
+    13. Validaciones semanticas de tipo en la sentencia "desde".
+    14. Registro y validación de tipo de vector en tabla de símbolos.    
     
 ## Funcionalidades que faltan implementar (Análisis Semántico)
 

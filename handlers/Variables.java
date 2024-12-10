@@ -7,6 +7,7 @@ import utils.TipoUtils;
 
 public class Variables {
     private Sintactico sintactico;
+    private String nombreArreglo;
 
     public Variables(Sintactico sintactico) {
         this.sintactico = sintactico;
@@ -50,6 +51,7 @@ public class Variables {
             avanzarToken();
         }
         if (sintactico.lex.equals("[")) {
+            nombreArreglo = nomIdes.toString();
             sintactico.variablesHandler.arreglo();
             return;
         }
@@ -122,17 +124,24 @@ public class Variables {
     }
 
     public void arreglo() {
+        if (!sintactico.lex.equals("[")) {
+            sintactico.erra("Error de Sintaxis", "Se esperaba '[' y llegó", sintactico.lex);
+            return;
+        }
         avanzarToken();
+        int tamano = 0;
         if (sintactico.tok.equals("Ent")) {
             // Es una constante entera
+            tamano = Integer.parseInt(sintactico.lex);
             avanzarToken();
         } else if (sintactico.tok.equals("Ide")) {
             // Es un identificador, verificar si es una constante entera
             String[] simbolo = sintactico.leetabSim(sintactico.lex);
             if (simbolo.length == 0 || !simbolo[0].equals("C") || !simbolo[1].equals("E")) {
-                sintactico.erra("Error de Semantica", "Se esperaba una constante entera y llego", sintactico.lex);
+                sintactico.erra("Error de Semantica", "Se esperaba una constante entera y llegó", sintactico.lex);
                 return;
             }
+            tamano = Integer.parseInt(simbolo[2]);
             avanzarToken();
         } else {
             sintactico.erra("Error de Sintaxis", "Se esperaba un número entero o una constante entera y llegó",
@@ -151,6 +160,25 @@ public class Variables {
             sintactico.erra("Error de Sintaxis", "Se esperaba un tipo de dato y llegó", sintactico.lex);
             return;
         }
+
+        String tipo = "";
+        switch (tipoDato) {
+            case "alfabetico":
+                tipo = "A";
+                break;
+            case "logico":
+                tipo = "L";
+                break;
+            case "entero":
+                tipo = "E";
+                break;
+            case "decimal":
+                tipo = "D";
+                break;
+        }
+
+        // Registrar el arreglo en la tabla de símbolos
+        sintactico.regtabSim(nombreArreglo, new String[] { "A", tipo, String.valueOf(tamano), "0" });
 
         avanzarToken();
         if (!sintactico.lex.equals("{")) {
